@@ -11,6 +11,7 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen.jsx";
+import RegisterScreen from "./screens/RegisterScreen.jsx";
 // import Login from "./screens/RegisterScreen.jsx";
 
 const router = createBrowserRouter(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/login" element={<LoginScreen />} />
+      <Route path="/register" element={<RegisterScreen />} />
     </Route>
   )
 );

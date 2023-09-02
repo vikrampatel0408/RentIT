@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBCheckbox,
+  MDBIcon,
+} from "mdb-react-ui-kit";
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log("useEffect triggered:", userData);
+
+    if (userData !== null) {
+      if (userData.isAuthenticated) {
+        console.log("Redirecting to home page");
+        navigate("/");
+      }
+    }
+  }, [userData, navigate]);
+
   const handlesubmit = async (e) => {
     e.preventDefault();
     try {
@@ -20,52 +43,79 @@ const LoginScreen = () => {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setUserData(data);
+        navigate("/");
       } else {
         console.error("Login failed");
       }
     } catch (error) {}
   };
   return (
-    <div style={{ display: "block", width: 700, padding: 30 }}>
-      <h4>Sign In</h4>
-      <br />
-      <Form onSubmit={handlesubmit}>
-        {/* <Form.Group>
-          <Form.Label>Enter your full name:</Form.Label>
-          <Form.Control type="text" placeholder="Enter your full name" />
-        </Form.Group> */}
-        <Form.Group>
-          <Form.Label>Enter your email address:</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter your your email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Enter your password:</Form.Label>
-          <Form.Control
-            type="string"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <br />
-        <Button variant="primary" type="submit">
-          Click here to submit form
-        </Button>
-      </Form>
-      {userData && (
-        <div>
-          <h5>Logged in successfully!</h5>
-          <p>User ID: {userData.id}</p>
-          <p>User Name: {userData.name}</p>
-        </div>
-      )}
-    </div>
+    <MDBContainer fluid className="p-4">
+      <MDBRow>
+        <MDBCol
+          md="6"
+          className="text-center text-md-start d-flex flex-column justify-content-center"
+        >
+          <h1 className="my-5 display-3 fw-bold ls-tight px-3">
+            RentIt <br />
+            <span className="text-primary">For Everything</span>
+          </h1>
+
+          <p className="px-3" style={{ color: "hsl(217, 10%, 50.8%)" }}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
+            itaque accusantium odio, soluta, corrupti aliquam quibusdam tempora
+            at cupiditate quis eum maiores libero veritatis? Dicta facilis sint
+            aliquid ipsum atque?
+          </p>
+        </MDBCol>
+        <MDBCol md="6">
+          <Form onSubmit={handlesubmit}>
+            <MDBCard className="my-5">
+              <MDBCardBody className="p-5">
+                <MDBInput
+                  wrapperClass="mb-4"
+                  placeholder="Email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <MDBInput
+                  wrapperClass="mb-4"
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <div className="d-flex justify-content-center mb-4">
+                  <MDBCheckbox
+                    name="flexCheck"
+                    value=""
+                    id="flexCheckDefault"
+                    label="Subscribe to our newsletter"
+                  />
+                </div>
+                <div>
+                  <button
+                    className="form-control text-primary"
+                    // style={{ backgroundColor: "" }}
+                  >
+                    Login
+                  </button>
+                  {/* <MDBBtn className="w-100 mb-4" size="md">
+                    Login
+                  </MDBBtn> */}
+                </div>
+
+                <div className="text-center"></div>
+              </MDBCardBody>
+            </MDBCard>
+          </Form>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
   );
 };
 
