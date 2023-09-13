@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
-  MDBBtn,
   MDBContainer,
   MDBRow,
   MDBCol,
@@ -13,26 +13,17 @@ import {
   MDBCardBody,
   MDBInput,
   MDBCheckbox,
-  MDBIcon,
 } from "mdb-react-ui-kit";
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log("useEffect triggered:", userData);
-
-    if (userData !== null) {
-      if (userData.isAuthenticated) {
-        console.log("Redirecting to home page");
-        navigate("/");
-      }
-    }
-  }, [userData, navigate]);
+  const invalidemail = () => toast("Wow so easy!");
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch("http://localhost:6969/api/users/auth", {
         method: "POST",
@@ -43,13 +34,15 @@ const LoginScreen = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setUserData(data);
-        navigate("/");
+        navigate("/dashboard", { state: data });
       } else {
         console.error("Login failed");
+        toast.error("Invalid email or password");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <MDBContainer fluid className="p-4">
@@ -69,12 +62,14 @@ const LoginScreen = () => {
             at cupiditate quis eum maiores libero veritatis? Dicta facilis sint
             aliquid ipsum atque?
           </p>
+          <ToastContainer />
         </MDBCol>
         <MDBCol md="6">
           <Form onSubmit={handlesubmit}>
             <MDBCard className="my-5">
               <MDBCardBody className="p-5">
                 <MDBInput
+                  required
                   wrapperClass="mb-4"
                   placeholder="Email"
                   type="email"
@@ -82,6 +77,7 @@ const LoginScreen = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <MDBInput
+                  required
                   wrapperClass="mb-4"
                   placeholder="Password"
                   type="password"

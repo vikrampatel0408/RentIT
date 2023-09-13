@@ -10,7 +10,8 @@ import {
   MDBCheckbox,
   MDBIcon,
 } from "mdb-react-ui-kit";
-// import "../register.css";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 function RegisterScreen() {
@@ -18,26 +19,29 @@ function RegisterScreen() {
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState(null);
   const [name, setName] = useState("");
+  const navigate = useNavigate();
   const handlesubmit = async (e) => {
     e.preventDefault();
     console.log(name, email, password);
     try {
-      const response = await fetch("http://localhost:6969/api/users/", {
+      const response = await fetch("http://localhost:6969/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: { name, email, password },
+        body: JSON.stringify({ name, email, password }),
       });
-      console.log(response);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setUserData(data);
+        navigate("/dashboard", { state: data });
       } else {
-        console.error("Login failed");
+        console.error("SignUp failed");
+        toast.error("User already exists");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <MDBContainer fluid className="p-4">
@@ -57,6 +61,7 @@ function RegisterScreen() {
             at cupiditate quis eum maiores libero veritatis? Dicta facilis sint
             aliquid ipsum atque?
           </p>
+          <ToastContainer />
         </MDBCol>
         <MDBCol md="6">
           <Form onSubmit={handlesubmit}>
@@ -66,7 +71,7 @@ function RegisterScreen() {
                   <MDBCol>
                     <MDBInput
                       wrapperClass="mb-4"
-                      label="Name"
+                      placeholder="Name"
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -76,14 +81,14 @@ function RegisterScreen() {
 
                 <MDBInput
                   wrapperClass="mb-4"
-                  label="Email"
+                  placeholder="Email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <MDBInput
                   wrapperClass="mb-4"
-                  label="Password"
+                  placeholder="Password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

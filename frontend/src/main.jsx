@@ -12,14 +12,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
-// import Login from "./screens/RegisterScreen.jsx";
-
+import DashboardScreen from "./screens/DashboardScreen.jsx";
+import ProductDetails from "./screens/ProductDetails.jsx";
+import Postform from "./screens/Postform.jsx";
+import ProfileScreen from "./screens/ProfileScreen.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/login" element={<LoginScreen />} />
+      <Route path="/dashboard" element={<DashboardScreen />} />
+      <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/register" element={<RegisterScreen />} />
+      <Route path="/profile/:id" element={<ProfileScreen />} />
+      <Route path="/addpost" element={<Postform />} />
     </Route>
   )
 );
