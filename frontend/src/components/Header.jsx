@@ -1,26 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Header = () => {
-  const location = useLocation();
-  const userData = location.state;
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
 
-  const handleNavbarBrandClick = () => {
-    console.log("Before navigation: " + userData);
-    if (userData) {
-      navigate("/dashboard", { state: { userData } });
-    } else {
-      navigate("/");
-    }
-    console.log("After navigation: " + userData.name);
-  };
-  const handleprofile = () => {
-    navigate("/profile", { state: { userData } });
-  };
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
@@ -31,20 +19,44 @@ const Header = () => {
         },
       });
       if (response.status === 200) {
+        Cookies.remove("userData");
+        setUserData(null);
         navigate("/login");
       } else {
         console.error("Logout failed");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error during logout:", error);
     }
   };
 
+  useEffect(() => {
+    const userDataFromCookie = Cookies.get("userData");
+    if (userDataFromCookie) {
+      try {
+        const parsedUserData = JSON.parse(userDataFromCookie);
+        setUserData(parsedUserData);
+      } catch (error) {
+        console.error("Error parsing user data from cookies:", error);
+      }
+    } else {
+      setUserData(null);
+    }
+  }, []);
+
   return (
-    <header>
+    <header
+      style={{
+        position: "fixed",
+        top: 0,
+        zIndex: 999,
+        width: "100%",
+        left: "0",
+      }}
+    >
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <LinkContainer to="/" onClick={handleNavbarBrandClick}>
+          <LinkContainer to="/">
             <Navbar.Brand>RentIt</Navbar.Brand>
           </LinkContainer>
 
@@ -70,8 +82,10 @@ const Header = () => {
                 </>
               )}
               {userData && (
-                <LinkContainer to={`/profile/${userData._id}`}>
-                  <Nav.Link>{userData.name}</Nav.Link>
+                <LinkContainer to={`/profile`}>
+                  <Nav.Link>
+                    {userData.name[0].toUpperCase() + userData.name.slice(1)}
+                  </Nav.Link>
                 </LinkContainer>
               )}
             </Nav>

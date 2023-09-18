@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 const App = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container
         className="my-2"
         style={{ minHeight: "calc(100vh - (2rem + 12px))" }}

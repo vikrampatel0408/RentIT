@@ -24,8 +24,8 @@ const router = createBrowserRouter(
       <Route path="/dashboard" element={<DashboardScreen />} />
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/register" element={<RegisterScreen />} />
-      <Route path="/profile/:id" element={<ProfileScreen />} />
-      <Route path="/addpost" element={<Postform />} />
+      <Route path="/profile" element={<ProfileScreen />} />
+      <Route path="/addproduct" element={<Postform />} />
     </Route>
   )
 );

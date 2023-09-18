@@ -55,12 +55,6 @@ function RegisterScreen() {
             <span className="text-primary">For Everything</span>
           </h1>
 
-          <p className="px-3" style={{ color: "hsl(217, 10%, 50.8%)" }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
-            itaque accusantium odio, soluta, corrupti aliquam quibusdam tempora
-            at cupiditate quis eum maiores libero veritatis? Dicta facilis sint
-            aliquid ipsum atque?
-          </p>
           <ToastContainer />
         </MDBCol>
         <MDBCol md="6">
@@ -94,19 +88,14 @@ function RegisterScreen() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <div className="d-flex justify-content-center mb-4">
-                  <MDBCheckbox
-                    name="flexCheck"
-                    value=""
-                    id="flexCheckDefault"
-                    label="Subscribe to our newsletter"
-                  />
+                <div>
+                  <button
+                    className="form-control "
+                    style={{ backgroundColor: "#212529", color: "white" }}
+                  >
+                    Sign Up
+                  </button>
                 </div>
-
-                <MDBBtn className="w-100 mb-4" size="md">
-                  sign up
-                </MDBBtn>
-
                 <div className="text-center"></div>
               </MDBCardBody>
             </MDBCard>

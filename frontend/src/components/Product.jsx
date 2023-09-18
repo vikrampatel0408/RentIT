@@ -6,7 +6,7 @@ import { BsPlus, BsEyeFill } from "react-icons/bs";
 const Product = ({ product }) => {
   const location = useLocation();
   const userData = location.state;
-  console.log(userData);
+
   const { id, image, category, title, price } = product;
   return (
     <div>
@@ -17,7 +17,6 @@ const Product = ({ product }) => {
             <img
               className="max-h-[160px] group-hover:scale-110 transition duration-300"
               src={image}
-              alt={userData.name}
             />
           </div>
         </div>

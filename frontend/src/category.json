@@ -1,0 +1,92 @@
+{
+  "Categories": {
+    "Real Estate": {
+      "For Sale": {
+        "Houses & Apartments": {},
+        "Shops & Offices": {}
+      },
+      "For Rent": {
+        "Houses & Apartments": {},
+        "Shops & Offices": {}
+      },
+      "Lands & Plots": {}
+    },
+    "Jobs": {
+      "Data entry & Back office": {},
+      "Sales & Marketing": {},
+      "BPO & Telecaller": {},
+      "Driver": {},
+      "Office Assistant": {},
+      "Delivery & Collection": {},
+      "Teacher": {},
+      "Cook": {},
+      "Receptionist & Front office": {},
+      "Operator & Technician": {},
+      "IT Engineer & Developer": {},
+      "Hotel & Travel Executive": {},
+      "Accountant": {},
+      "Designer": {},
+      "Other Jobs": {}
+    },
+    "Vehicles": {
+      "Bikes": {
+        "Motorcycles": {},
+        "Scooters": {},
+        "Spare Parts": {},
+        "Bicycles": {}
+      },
+      "Commercial Vehicles & Spares": {
+        "Commercial & Other Vehicles": {},
+        "Spare Parts": {}
+      }
+    },
+    "Electronics & Appliances": {
+      "TVs, Video - Audio": {},
+      "Kitchen & Other Appliances": {},
+      "Computers & Laptops": {},
+      "Cameras & Lenses": {},
+      "Games & Entertainment": {},
+      "Fridges": {},
+      "Computer Accessories": {},
+      "Hard Disks, Printers & Monitors": {},
+      "ACs": {},
+      "Washing Machines": {}
+    },
+    "Furniture": {
+      "Sofa & Dining": {},
+      "Beds & Wardrobes": {},
+      "Home Decor & Garden": {},
+      "Kids Furniture": {},
+      "Other Household Items": {}
+    },
+    "Fashion": {
+      "Men": {},
+      "Women": {},
+      "Kids": {}
+    },
+    "Books, Sports & Hobbies": {
+      "Books": {},
+      "Gym & Fitness": {},
+      "Musical Instruments": {},
+      "Sports Equipment": {},
+      "Other Hobbies": {}
+    },
+    "Pets": {
+      "Fishes & Aquarium": {},
+      "Pet Food & Accessories": {},
+      "Dogs": {},
+      "Other Pets": {}
+    },
+    "Services": {
+      "Education & Classes": {},
+      "Tours & Travel": {},
+      "Electronics Repair & Services": {},
+      "Health & Beauty": {},
+      "Home Renovation & Repair": {},
+      "Cleaning & Pest Control": {},
+      "Legal & Documentation Services": {},
+      "Packers & Movers": {},
+      "Other Services": {}
+    }
+  }
+}

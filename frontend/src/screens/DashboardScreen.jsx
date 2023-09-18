@@ -4,15 +4,30 @@ import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Product from "../components/Product";
 import { TailSpin } from "react-loader-spinner";
-
+import Cookies from "js-cookie";
+import Fuse from "fuse.js";
+import App from "../App";
+import Header from "../components/Header";
 const DashboardScreen = () => {
-  const location = useLocation();
-  const userData = location.state;
   const navigate = useNavigate();
+  const [userData, setUserData] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [fuse, setFuse] = useState(null);
+
+  useEffect(() => {
+    const userDataFromCookie = Cookies.get("userData");
+    if (userDataFromCookie) {
+      try {
+        const parsedUserData = JSON.parse(userDataFromCookie);
+        setUserData(parsedUserData);
+      } catch (error) {
+        console.error("Error parsing user data from cookies:", error);
+      }
+    }
+  }, [navigate, setUserData]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,23 +49,36 @@ const DashboardScreen = () => {
   }, []);
 
   useEffect(() => {
+    if (products.length > 0) {
+      const options = {
+        keys: ["title", "category"],
+        threshold: 0.4,
+      };
+
+      const t = new Fuse(products, options);
+      setFuse(t);
+    }
+  }, [products]);
+
+  useEffect(() => {
+    const filterProducts = () => {
+      if (!fuse) return;
+      const results = fuse.search(searchInput);
+      const filtered = results.map(({ item }) => item);
+      setFilteredProducts(filtered);
+    };
+
     filterProducts();
-  }, [searchInput, products]);
+  }, [searchInput, fuse]);
 
-  const filterProducts = () => {
-    const filtered = products.filter((product) => {
-      const searchTerm = searchInput.toLowerCase();
-      const productName = product.title.toLowerCase();
-      const category = product.category.toLowerCase();
-
-      return productName.includes(searchTerm) || category.includes(searchTerm);
-    });
-
-    setFilteredProducts(filtered);
+  const handleSellClick = () => {
+    console.log("button click " + userData);
+    navigate("/addproduct", { state: { userData } });
   };
 
   return (
     <>
+      <Header />
       <section className="py-20">
         <div className="container mx-auto">
           <div className="container mx-auto bg-gray-500 rounded-lg p-14">
@@ -83,11 +111,20 @@ const DashboardScreen = () => {
               </div>
             </form>
           </div>
+          <button
+            type="button"
+            className="btn btn-primary"
+            width="100"
+            onClick={handleSellClick}
+          >
+            Sell it
+          </button>
+
           <h2 className="text-3xl font-semibold mb-10 text-center py-6">
             Explore Items
           </h2>
           {loading ? (
-            <section className="h-screen flex justify-center items-center ">
+            <section className="h-screen flex justify-center">
               <TailSpin
                 height="80"
                 width="80"

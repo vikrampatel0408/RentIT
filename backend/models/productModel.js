@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import User from "./userModel.js";
 
 const productSchema = mongoose.Schema(
     {
@@ -18,10 +18,11 @@ const productSchema = mongoose.Schema(
       },
       image: {
         type: String,
-      }
-    },
-    {
-      timestamps: true,
+      },
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
     }
   );
   
