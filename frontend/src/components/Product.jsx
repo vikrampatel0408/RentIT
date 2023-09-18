@@ -7,7 +7,7 @@ const Product = ({ product }) => {
   const location = useLocation();
   const userData = location.state;
 
-  const { id, image, category, title, price } = product;
+  const { _id, image, category, name, price } = product;
   return (
     <div>
       <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition">
@@ -29,7 +29,7 @@ const Product = ({ product }) => {
             </div>
           </button>
           <Link
-            to={`/product/${id}`}
+            to={`/product/${_id}`}
             className="w-12 h-12 bg-white flex justify-center items-center text-primary drop-shadow-xl"
           >
             <BsEyeFill />
@@ -41,13 +41,13 @@ const Product = ({ product }) => {
         <div className="tex-sm capitalize text-gray-500 mb-1">{category}</div>
         <Link
           className="no-underline text-gray-800 "
-          to={`/product/${id}`}
+          to={`/product/${_id}`}
           state={userData}
         >
-          <h2 className="font-semibold mb-1 text-lg">{title}</h2>
+          <h2 className="font-semibold mb-1 text-lg">{name}</h2>
         </Link>
 
-        <h2 className="font-semibbold">$ {price}</h2>
+        <h2 className="font-semibbold">₹ {price}</h2>
       </div>
     </div>
   );

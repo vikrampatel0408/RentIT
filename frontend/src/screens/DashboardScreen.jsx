@@ -32,10 +32,11 @@ const DashboardScreen = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("https://fakestoreapi.com/products");
+        const response = await fetch("http://localhost:6969/api/product/allproduct");
         if (response.ok) {
           const data = await response.json();
-          setProducts(data);
+          console.log(data);
+          setProducts(data.allProduct);
         } else {
           console.error("Failed to fetch products");
         }

@@ -13,6 +13,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import Header from "../components/Header";
 
 const Postform = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const Postform = () => {
   const [description, setDescription] = useState("");
   const [category,setCategory] = useState("");
   const [image,setImage] = useState("");
+  const [price,setPrice]= useState("");
   const [productdata , setProductdata] = useState(null);
   const userData = location.state;
   const [userdata,setUserdata] = useState(userData);
@@ -32,7 +34,7 @@ const Postform = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, description,category,image,userData}),
+        body: JSON.stringify({ name, description,category,image,userData,price}),
       });
       if (response.ok) {
         const data = await response.json();
@@ -48,6 +50,8 @@ const Postform = () => {
  
   
   return (
+    <>
+      <Header />
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center">
         <MDBCol lg="9" className="my-5">
@@ -117,6 +121,22 @@ const Postform = () => {
                   />
                 </MDBCol>
               </MDBRow>
+              <MDBRow className="align-items-center pt-4 pb-3">
+                <MDBCol md="3" className="ps-5">
+                  <h6 className="mb-0">Price</h6>
+                </MDBCol>
+
+                <MDBCol md="9" className="pe-5">
+                  <MDBInput
+                    label="Enter price in ruppees"
+                    size="lg"
+                    
+                    type="number"
+                    value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  />
+                </MDBCol>
+              </MDBRow>
 
               <hr className="mx-n3" />
               <button className="form-control text-primary" style={{backgroundColor: "lightblue"}}>
@@ -129,6 +149,7 @@ const Postform = () => {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
+    </>
   );
 };
 

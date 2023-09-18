@@ -14,10 +14,10 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+        const response = await fetch(`http://localhost:6969/api/product/${id}`);
         if (response.ok) {
           const data = await response.json();
-          setProduct(data);
+          setProduct(data.product);
         } else {
           console.error("Failed to fetch product");
         }
@@ -46,7 +46,7 @@ const ProductDetails = () => {
     );
   }
 
-  const { title, price, description, image } = product;
+  const { name, price, description, image } = product;
 
   return (
     <section className="pt-[450px] md:pt-32 pb-[400px] md:pb-12 lg:py-32 h-screen flex items-center pt-0">
@@ -65,10 +65,10 @@ const ProductDetails = () => {
 
           <div className="flex-1 text-center lg:text-left">
             <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">
-              {title}
+              {name}
             </h1>
             <div className="text-2xl text-red-500 font-medium mb-6">
-              $ {price}
+            ₹ {price}
             </div>
             <p className="mb-8">{description}</p>
             <button className="bg-primary py-4 px-8 text-white">Buy</button>
