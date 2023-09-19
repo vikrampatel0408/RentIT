@@ -1,10 +1,20 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import nodemailer from "nodemailer";
+import  jwt from "jsonwebtoken";
 
+var smtpConfig = {
+  service: "gmail",
+  // use SSL
+  auth: { user: "medigo777@gmail.com", pass: "adfhbsdtrhgrsoqi" },
+};
+
+const transporter = nodemailer.createTransport(smtpConfig);
 //@desc Auth user / Set token
 // route POST api/users/auth
 // access Public
+
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -32,9 +42,26 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User alreasy exists");
   }
-  const products = [] ;
-  const user = await User.create({ name, email, password ,products });
+  const products = [];
+  const user = await User.create({ name, email, password, products });
+
   if (user) {
+    const verificationToken = user.generateVerificationToken();
+    // console.log(verificationToken);
+    const url = `http://localhost:6969/api/users/verify/${verificationToken}`;
+    const mailOptions = {
+      from: 'medigo777@gmail.com',
+      to: email,
+      subject: "Verify Account",
+      html: `Click <a href = '${url}'>here</a> to confirm your email.`,
+    };
+    await transporter.sendMail(mailOptions, (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("The email was sent successfully");
+      }
+    });
     generateToken(res, user._id);
     res.status(200).json({
       _id: user._id,
@@ -45,7 +72,6 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid user data");
   }
-  res.status(200).json({ message: "Register User" });
 });
 
 //@desc Logout user
@@ -76,6 +102,45 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const verifyUser = async(req,res,next) =>{
+  const token = req.params.token;
+  // console.log(token);
+  if (!token) {
+    return res.status(422).send({ 
+         message: "Missing Token" 
+    });
+}
+// Step 1 -  Verify the token from the URL
+let payload = null
+try {
+    payload = jwt.verify(
+       token,
+       "hakunnamata"
+    );
+} catch (err) {
+    return res.status(500).send(err);
+}
+console.log(payload);
+try{
+    // Step 2 - Find user with matching ID
+    const user = await User.findOne({ _id: payload.ID }).exec();
+    console.log(user);
+    if (!user) {
+       return res.status(404).send({ 
+          message: "User does not  exists" 
+       });
+    }
+    // Step 3 - Update user verification status to true
+    user.email_verified = true;
+    await user.save();
+    return res.status(200).send({
+          message: "Account Verified"
+    });
+ } catch (err) {
+    return res.status(500).send(err);
+ }
+}
+
 //@desc update user profile
 // route PUT api/users/profile
 // access Private
@@ -105,4 +170,5 @@ export {
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  verifyUser
 };

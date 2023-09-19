@@ -22,7 +22,7 @@ function RegisterScreen() {
   const navigate = useNavigate();
   const handlesubmit = async (e) => {
     e.preventDefault();
-    console.log(name, email, password);
+    
     try {
       const response = await fetch("http://localhost:6969/api/users", {
         method: "POST",
@@ -31,8 +31,10 @@ function RegisterScreen() {
         },
         body: JSON.stringify({ name, email, password }),
       });
+      console.log(response)
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setUserData(data);
         navigate("/dashboard", { state: data });
       } else {
@@ -92,6 +94,7 @@ function RegisterScreen() {
                   <button
                     className="form-control "
                     style={{ backgroundColor: "#212529", color: "white" }}
+                    type="submit"
                   >
                     Sign Up
                   </button>

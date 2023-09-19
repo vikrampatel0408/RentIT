@@ -35,7 +35,7 @@ const DashboardScreen = () => {
         const response = await fetch("http://localhost:6969/api/product/allproduct");
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+        
           setProducts(data.allProduct);
         } else {
           console.error("Failed to fetch products");
@@ -74,7 +74,8 @@ const DashboardScreen = () => {
 
   const handleSellClick = () => {
     console.log("button click " + userData);
-    navigate("/addproduct", { state: { userData } });
+    console.log(userData);
+    navigate("/addproduct");
   };
 
   return (
