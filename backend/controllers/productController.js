@@ -3,11 +3,13 @@ import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 const postProduct = asyncHandler(async (req, res, next) => {
   const { name, description, category, image ,price} = req.body;
-  const userData = req.body.userData;
-  const { email } = userData;
-  const user = await User.findOne({ email });
+  const id = req.body.id;
+  
+  const user = await User.findById(id);
+  
   const product = await Product.create({ name, description, category, image,price });
-  user.products.push(product);
+  user.products.push(product._id);
+  
   user.save();
   if (product) {
     res.status(200).json({
@@ -19,10 +21,10 @@ const postProduct = asyncHandler(async (req, res, next) => {
       price: product.price,
     });
   } else {
-    res.status(400);
+   res.status(400);
     throw new Error("Invalid product data");
   }
-  res.status(200).json({ message: "Post added Succesfully" });
+  
 });
 const getAllProduct =  asyncHandler(async(req,res,next)=>{
   const allProduct = await Product.find();

@@ -14,7 +14,7 @@ import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
-
+import Cookies from "js-cookie";
 const Postform = () => {
   const location = useLocation();
   const [name, setName] = useState("");
@@ -23,18 +23,21 @@ const Postform = () => {
   const [image,setImage] = useState("");
   const [price,setPrice]= useState("");
   const [productdata , setProductdata] = useState(null);
-  const userData = location.state;
-  const [userdata,setUserdata] = useState(userData);
+  const userData = Cookies.get("userData");
+  const [userdata,setUserdata] = useState([]);
+  
   const handlesubmit = async (e) => {
     e.preventDefault();
-
+    const parsedUserData = JSON.parse(userData);
+    setUserdata(parsedUserData);
+    const id = userdata._id;
     try {
       const response = await fetch("http://localhost:6969/api/product/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, description,category,image,userData,price}),
+        body: JSON.stringify({ name, description,category,image,id,price}),
       });
       if (response.ok) {
         const data = await response.json();
