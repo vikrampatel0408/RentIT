@@ -86,6 +86,46 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 });
 
+
+const verifyUser = async(req,res,next) =>{
+  const token = req.params.token;
+  // console.log(token);
+  if (!token) {
+    return res.status(422).send({ 
+         message: "Missing Token" 
+    });
+}
+// Step 1 -  Verify the token from the URL
+let payload = null
+try {
+    payload = jwt.verify(
+       token,
+       "hakunnamata"
+    );
+} catch (err) {
+    return res.status(500).send(err);
+}
+console.log(payload);
+try{
+    // Step 2 - Find user with matching ID
+    const user = await User.findOne({ _id: payload.ID }).exec();
+    console.log(user);
+    if (!user) {
+       return res.status(404).send({ 
+          message: "User does not  exists" 
+       });
+    }
+    // Step 3 - Update user verification status to true
+    user.email_verified = true;
+    await user.save();
+    return res.status(200).send({
+          message: "Account Verified"
+    });
+ } catch (err) {
+    return res.status(500).send(err);
+ }
+}
+
 //@desc update user profile
 // route PUT api/users/profile
 // access Private
@@ -119,4 +159,4 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, registerUser, logoutUser, updateUserProfile };
+export { authUser, registerUser, logoutUser, updateUserProfile,verifyUser };
