@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport(smtpConfig);
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (user && (await user.matchPassword(password))) {
+  if (user && (await user.matchPassword(password)) && user.email_verified ) {
     generateToken(res, user._id);
     res.json({
       _id: user._id,
@@ -27,9 +27,13 @@ const authUser = asyncHandler(async (req, res) => {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     });
-  } else {
+  } else if(!user.email_verified) {
+    res.status(400);
+    throw new Error("verification not done");
+  }
+  else{
     res.status(401);
-    throw new Error("Invalud email or password");
+    throw new Error ("invalid password or email");
   }
 });
 
