@@ -8,8 +8,7 @@ const App = () => {
     <>
       {/* <Header /> */}
       <Container
-        className="my-2"
-        style={{ minHeight: "calc(100vh - (2rem + 12px))" }}
+        style={{ minHeight: "calc(100vh - (2rem + 12px))", marginTop: "8rem" }}
       >
         <Outlet />
       </Container>

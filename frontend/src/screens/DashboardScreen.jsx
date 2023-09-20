@@ -32,7 +32,9 @@ const DashboardScreen = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:6969/api/product/allproduct");
+        const response = await fetch(
+          "http://localhost:6969/api/product/allproduct"
+        );
         if (response.ok) {
           const data = await response.json();
           console.log(data);
@@ -52,7 +54,7 @@ const DashboardScreen = () => {
   useEffect(() => {
     if (products.length > 0) {
       const options = {
-        keys: ["title", "category"],
+        keys: ["name", "category"],
         threshold: 0.4,
       };
 
@@ -101,14 +103,6 @@ const DashboardScreen = () => {
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                 />
-                <div className="sm:flex items-center px-2 rounded-lg space-x-4 mx-auto ">
-                  <button
-                    type="submit"
-                    className="bg-gray-500 text-white text-base rounded-lg px-4 py-2 font-thin"
-                  >
-                    Search
-                  </button>
-                </div>
               </div>
             </form>
           </div>

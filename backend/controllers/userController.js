@@ -14,6 +14,8 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       email: user.email,
       name: user.name,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     });
   } else {
     res.status(401);
@@ -32,8 +34,8 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User alreasy exists");
   }
-  const products = [] ;
-  const user = await User.create({ name, email, password ,products });
+  const products = [];
+  const user = await User.create({ name, email, password, products });
   if (user) {
     generateToken(res, user._id);
     res.status(200).json({
@@ -59,39 +61,32 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 });
 
-//@desc get user profile
-// route GET api/users/profile
-// access Private
-const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
-  if (user) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    });
-  } else {
-    res.status(400);
-    throw new Error("User not found");
-  }
-});
-
 //@desc update user profile
 // route PUT api/users/profile
 // access Private
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.body._id);
+
   if (user) {
     user.name = req.body.name || user.name;
+    user.gender = req.body.gender || user.gender;
+    user.location = req.body.location || user.location;
+    user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
     user.email = req.body.email || user.email;
+
     if (req.body.password) {
       user.password = req.body.password;
     }
+
     const updatedUser = await user.save();
+
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
+      gender: updatedUser.gender,
+      location: updatedUser.location,
+      phoneNumber: updatedUser.phoneNumber,
     });
   } else {
     res.status(400);
@@ -99,10 +94,4 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export {
-  authUser,
-  registerUser,
-  logoutUser,
-  getUserProfile,
-  updateUserProfile,
-};
+export { authUser, registerUser, logoutUser, updateUserProfile };

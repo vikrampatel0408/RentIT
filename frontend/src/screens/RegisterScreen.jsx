@@ -10,6 +10,7 @@ import {
   MDBCheckbox,
   MDBIcon,
 } from "mdb-react-ui-kit";
+import Header from "../components/Header";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -44,65 +45,69 @@ function RegisterScreen() {
     }
   };
   return (
-    <MDBContainer fluid className="p-4">
-      <MDBRow>
-        <MDBCol
-          md="6"
-          className="text-center text-md-start d-flex flex-column justify-content-center"
-        >
-          <h1 className="my-5 display-3 fw-bold ls-tight px-3">
-            RentIt <br />
-            <span className="text-primary">For Everything</span>
-          </h1>
+    <>
+      <Header />
 
-          <ToastContainer />
-        </MDBCol>
-        <MDBCol md="6">
-          <Form onSubmit={handlesubmit}>
-            <MDBCard className="my-5">
-              <MDBCardBody className="p-5">
-                <MDBRow>
-                  <MDBCol>
-                    <MDBInput
-                      wrapperClass="mb-4"
-                      placeholder="Name"
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </MDBCol>
-                </MDBRow>
+      <MDBContainer fluid className="p-4">
+        <MDBRow>
+          <MDBCol
+            md="6"
+            className="text-center text-md-start d-flex flex-column justify-content-center"
+          >
+            <h1 className="my-5 display-3 fw-bold ls-tight px-3">
+              RentIt <br />
+              <span className="text-primary">For Everything</span>
+            </h1>
 
-                <MDBInput
-                  wrapperClass="mb-4"
-                  placeholder="Email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <MDBInput
-                  wrapperClass="mb-4"
-                  placeholder="Password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+            <ToastContainer />
+          </MDBCol>
+          <MDBCol md="6">
+            <Form onSubmit={handlesubmit}>
+              <MDBCard className="my-5">
+                <MDBCardBody className="p-5">
+                  <MDBRow>
+                    <MDBCol>
+                      <MDBInput
+                        wrapperClass="mb-4"
+                        placeholder="Name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </MDBCol>
+                  </MDBRow>
 
-                <div>
-                  <button
-                    className="form-control "
-                    style={{ backgroundColor: "#212529", color: "white" }}
-                  >
-                    Sign Up
-                  </button>
-                </div>
-                <div className="text-center"></div>
-              </MDBCardBody>
-            </MDBCard>
-          </Form>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+                  <MDBInput
+                    wrapperClass="mb-4"
+                    placeholder="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <MDBInput
+                    wrapperClass="mb-4"
+                    placeholder="Password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+
+                  <div>
+                    <button
+                      className="form-control "
+                      style={{ backgroundColor: "#212529", color: "white" }}
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+                  <div className="text-center"></div>
+                </MDBCardBody>
+              </MDBCard>
+            </Form>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    </>
   );
 }
 

@@ -16,6 +16,7 @@ import DashboardScreen from "./screens/DashboardScreen.jsx";
 import ProductDetails from "./screens/ProductDetails.jsx";
 import Postform from "./screens/Postform.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
+import EditProfileScreen from "./screens/EditProfileScreen.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/profile" element={<ProfileScreen />} />
+      <Route path="/edit-profile" element={<EditProfileScreen />} />
       <Route path="/addproduct" element={<Postform />} />
     </Route>
   )
