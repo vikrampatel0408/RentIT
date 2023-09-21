@@ -37,7 +37,7 @@ function RegisterScreen() {
         const data = await response.json();
         console.log(data);
         setUserData(data);
-        navigate("/dashboard", { state: data });
+        navigate("/login", { state: data });
       } else {
         console.error("SignUp failed");
         toast.error("User already exists");
