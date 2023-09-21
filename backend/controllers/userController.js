@@ -24,8 +24,12 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       email: user.email,
       name: user.name,
+      gender: user.gender,
+      location: user.location,
+      phoneNumber: user.phoneNumber,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      email_verified: user.email_verified,
     });
   } else {
     res.status(401);

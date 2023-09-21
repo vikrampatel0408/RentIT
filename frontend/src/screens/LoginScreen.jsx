@@ -35,7 +35,7 @@ const LoginScreen = () => {
 
       if (response.ok) {
         const data = await response.json();
-
+        console.log(data);
         Cookies.set("userData", JSON.stringify(data), { expires: 7 });
 
         navigate("/dashboard");

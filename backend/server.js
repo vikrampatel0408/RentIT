@@ -8,6 +8,7 @@ import { notFound, errorHandler } from "./middlerware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import prodcutRoutes from "./routes/productRoutes.js";
+import Twilio from "twilio";
 db();
 dotenv.config();
 const app = express();

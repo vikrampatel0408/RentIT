@@ -9,8 +9,10 @@ const EditProfileScreen = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
-  const indianCities = ["Mumbai", "Delhi", "Bangalore", "Kolkata"];
 
+  const [otp, setOtp] = useState();
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const indianCities = ["Mumbai", "Delhi", "Bangalore", "Kolkata"];
   const [formData, setFormData] = useState({
     _id: "",
     name: userData.name || "",
@@ -38,11 +40,33 @@ const EditProfileScreen = () => {
       }
     }
   }, []);
-  const handleSendOTP = (e) => {
+
+  const handleSendOTP = async (e) => {
     e.preventDefault();
     const phoneNumber = formData.phoneNumber;
-    console.log(phoneNumber);
+    try {
+      const response = await fetch(
+        "http://localhost:6969/api/users/twilio-sms/send-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phoneNumber }),
+        }
+      );
+      if (response.ok) {
+        toast.success("OTP sent successfully");
+
+        setShowOtpInput(true);
+      } else {
+        toast.error("Please Enter Valid Phone Number");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -51,6 +75,36 @@ const EditProfileScreen = () => {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleVerifyOTP = async () => {
+    const phoneNumber = formData.phoneNumber;
+    try {
+      const response = await fetch(
+        "http://localhost:6969/api/users/twilio-sms/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            otp,
+            phoneNumber,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        toast.success("OTP verified successfully");
+
+        setShowOtpInput(false);
+      } else {
+        toast.error("OTP verification failed");
+      }
+    } catch (error) {
+      console.error("Error during OTP verification:", error);
+      toast.error("An error occurred. Please try again later.");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -73,7 +127,7 @@ const EditProfileScreen = () => {
           const updatedUser = { ...parsedUserData, ...updatedUserData };
           Cookies.set("userData", JSON.stringify(updatedUser), { expires: 7 });
           toast.success("Updated Successfully");
-          navigate("/dashboard");
+          navigate("/profile");
         }
       } else {
         console.log("No update");
@@ -188,6 +242,28 @@ const EditProfileScreen = () => {
                 </button>
               </div>
             </div>
+
+            {showOtpInput && (
+              <div className="mb-4">
+                <label className="block text-gray-600 text-sm font-semibold mb-2">
+                  OTP
+                </label>
+                <input
+                  type="text"
+                  name="otp"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="w-2/4 px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                />
+                <button
+                  type="button"
+                  onClick={handleVerifyOTP}
+                  className="bg-blue-500 text-white py-2 px-4 ml-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                >
+                  Verify OTP
+                </button>
+              </div>
+            )}
 
             <button
               type="submit"
