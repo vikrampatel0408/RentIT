@@ -10,7 +10,7 @@ const postProduct = asyncHandler(async (req, res, next) => {
   const category_id = await Category.findOne({category_name: category});
   
   const product = await Product.create({ name, description, image,price });
-  product.category = category_id._id;
+  product.category = category_id.name;
   await product.save();
   category_id.products.push(product._id);
   await category_id.save();
@@ -42,4 +42,15 @@ const getProductById = asyncHandler(async(req,res,next)=>{
   const product = await Product.findById(id);
   res.status(200).json({product: product});
 })
-export { postProduct,getAllProduct, getProductById };
+const getUserProduct = asyncHandler(async(req,res,next)=>{
+  const id = req.params.id;
+  const user = await User.findById(id);
+  const userproductsid = user.products;
+  const allproduct = await Product.find();
+
+  const userproducts = await Product.find().where('_id').in(userproductsid).exec();
+  
+  console.log(userproducts);
+  res.status(200).json({userproduct: userproducts});
+})
+export { postProduct,getAllProduct, getProductById,getUserProduct };

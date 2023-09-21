@@ -1,6 +1,6 @@
 import express from "express";
 import { protect } from "../middlerware/authMiddleware.js";
-import { getAllProduct, getProductById, postProduct } from "../controllers/productController.js";
+import { getAllProduct, getProductById, postProduct,getUserProduct } from "../controllers/productController.js";
 const router = express.Router();
 
 router
@@ -8,4 +8,5 @@ router
 router
 .get("/allproduct",getAllProduct);
 router.get("/:id",getProductById);
+router.get("/userproducts/:id",getUserProduct);
 export default router;
