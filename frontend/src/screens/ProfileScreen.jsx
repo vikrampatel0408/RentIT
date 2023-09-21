@@ -68,15 +68,25 @@ const ProfileScreen = () => {
                           <span className="ml-auto">
                             <span
                               className={`${
-                                userData.phoneVerified
-                                  ? "bg-green-500"
-                                  : "bg-red-500"
+                                hasPhoneNumber ? "bg-green-500" : "bg-red-500"
                               } py-1 px-2 rounded text-white text-sm`}
                             >
-                              {userData.phoneVerified ? "Done" : "Not Done"}
+                              {hasPhoneNumber ? "Done" : "Not Done"}
                             </span>
                           </span>
                         </li>
+                        {/* <li className="flex items-center py-3">
+                          <span>Email</span>
+                          <span className="ml-auto">
+                            <span
+                              className={`${
+                                hasPhoneNumber ? "bg-green-500" : "bg-red-500"
+                              } py-1 px-2 rounded text-white text-sm`}
+                            >
+                              {hasPhoneNumber ? "Done" : "Not Done"}
+                            </span>
+                          </span>
+                        </li> */}
                         <li className="flex items-center py-3">
                           <span>Member since</span>
                           <span className="ml-auto">

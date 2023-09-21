@@ -37,7 +37,7 @@ const DashboardScreen = () => {
         );
         if (response.ok) {
           const data = await response.json();
-        
+
           setProducts(data.allProduct);
         } else {
           console.error("Failed to fetch products");

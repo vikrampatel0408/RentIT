@@ -20,6 +20,7 @@ function RegisterScreen() {
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState(null);
   const [name, setName] = useState("");
+
   const navigate = useNavigate();
   const handlesubmit = async (e) => {
     e.preventDefault();
