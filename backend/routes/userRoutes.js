@@ -5,6 +5,7 @@ import {
   registerUser,
   logoutUser,
   updateUserProfile,
+  verifyUser
 } from "../controllers/userController.js";
 import { sendOTP, verifyOTP } from "../controllers/otpController.js";
 
@@ -17,5 +18,5 @@ router.post("/twilio-sms/verify-otp", verifyOTP);
 router.get("verify/:token");
 router.post("/logout", logoutUser);
 router.route("/profile").put(updateUserProfile);
-
+router.get("/verify/:token",verifyUser);
 export default router;

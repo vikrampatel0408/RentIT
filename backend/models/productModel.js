@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import User from "./userModel.js";
-
+import Category from "./categoryModel.js";
 const productSchema = mongoose.Schema(
     {
       name: {
@@ -13,7 +13,9 @@ const productSchema = mongoose.Schema(
         
       },
       category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        
         
       },
       image: {

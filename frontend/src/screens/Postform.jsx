@@ -9,6 +9,7 @@ import {
   MDBTextArea,
   MDBFile,
 } from "mdb-react-ui-kit";
+import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
@@ -17,6 +18,7 @@ import Header from "../components/Header";
 import Cookies from "js-cookie";
 const Postform = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category,setCategory] = useState("");
@@ -43,6 +45,7 @@ const Postform = () => {
         const data = await response.json();
         setProductdata(data);
         console.log(data)
+        navigate("/dashboard");
       } else {
         console.error("Login failed");
       }
