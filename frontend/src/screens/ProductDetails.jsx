@@ -4,6 +4,7 @@ import { TailSpin } from "react-loader-spinner";
 import { Slider } from "@material-tailwind/react";
 import Header from "../components/Header";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -76,9 +77,11 @@ const ProductDetails = () => {
         if (response.ok) {
           const data = await response.json();
           console.log("success");
-          navigate("/dashboard");
+          toast.success("Offer is sent")
+          
         } else {
           console.error("Failed to post offer");
+          toast.error("falied to sent offer");
         }
       } catch (error) {
         console.error("Error post offer :", error);
@@ -93,6 +96,7 @@ const ProductDetails = () => {
       <Header />
 
       <section className="pt-[450px] md:pt-32 pb-[400px] md:pb-12 lg:py-32 h-screen flex items-center pt-0">
+        <ToastContainer />
         <div className="container mx-auto">
           <button className="btn btn-primary" onClick={handleBackButtonClick}>
             Back

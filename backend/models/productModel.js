@@ -28,6 +28,10 @@ const productSchema = mongoose.Schema(
       },
       offers: {
         type: [{user: mongoose.Schema.Types.ObjectId, offerprice: Number,username: String}]
+      },
+      sold:{
+        type: Boolean,
+        default: false
       }
     }
   );

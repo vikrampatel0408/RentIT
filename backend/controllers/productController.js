@@ -72,4 +72,29 @@ const getoffer = asyncHandler(async (req,res,next)=>{
     offers : offers
   })
 })
-export { postProduct, getAllProduct, getProductById, getUserProduct ,postOffer ,getoffer};
+
+const acceptOffer = asyncHandler(async (req,res,next)=>{
+  const productid = req.params.id;
+  const product = await Product.findById(productid);
+  const offer_id = req.body.offer_id;
+  const correctoffer = product.offers.find(offer => offer._id == offer_id );
+  
+  if(correctoffer){
+  product.sold = true;
+  product.offers = [];
+  product.offers.push(correctoffer);
+  product.price = correctoffer.offerprice;
+  product.save();
+  return res.status(200).json({
+    message: "offer accepted"
+  })
+  }
+  else{
+   return res.status(400).json({
+      message: "no offer found"
+    })
+  }
+  
+})
+
+export { postProduct, getAllProduct, getProductById, getUserProduct ,postOffer ,getoffer,acceptOffer};

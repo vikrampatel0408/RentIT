@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
 const Postform = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,10 +45,12 @@ const Postform = () => {
       if (response.ok) {
         const data = await response.json();
         setProductdata(data);
+        toast.success("Product added Successfully")
         console.log(data)
         navigate("/dashboard");
       } else {
-        console.error("Login failed");
+        console.error("Product added failed");
+        toast.error("Product added failed")
       }
     } catch (error) {
       console.log(error);
@@ -61,6 +64,7 @@ const Postform = () => {
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center">
         <MDBCol lg="9" className="my-5">
+          <ToastContainer />
         <Form onSubmit={handlesubmit}>
           <MDBCard>
             <MDBCardBody className="px-4">

@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Offers from "../components/Offers";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
 const OfferScreen = () => {
   const [offers, setOffers] = useState([]);
   const { id } = useParams();
@@ -29,10 +31,11 @@ const OfferScreen = () => {
   return (
     <>
       <Header />
+      <ToastContainer />
       <div className="flex flex-col gap-4">
         <ul className="list-group">
           {offers.length ? (
-            offers.map((offer) => <Offers offer={offer} key={offer._id} />)
+            offers.map((offer) => <Offers productid= {id} offer={offer} key={offer._id} />)
           ) : (
             <h1>No offer Found</h1>
           )}
