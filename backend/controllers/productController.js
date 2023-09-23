@@ -3,22 +3,20 @@ import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Category from "../models/categoryModel.js";
 const postProduct = asyncHandler(async (req, res, next) => {
-  const { name, description, category, image ,price} = req.body;
+  const { name, description, category, image, price } = req.body;
   const id = req.body.id;
   
-  const user = await User.findById(id);
-  const category_id = await Category.findOne({category_name: category});
-  
-  const product = await Product.create({ name, description, image,price });
-  product.category = category_id.name;
-  await product.save();
-  category_id.products.push(product._id);
-  await category_id.save();
-  user.products.push(product._id);
-  
-  user.save();
+  const category_id = await Category.findOne({ category_name: category });
+  const offers =[];
+  const product = await Product.create({ name, description, image, price,offers , category:category_id.category_name});
+  User.findById(id).then(user =>{
+    if(user !== null){
+    user.products.push(product._id);
+    user.save();
+    }
+   })
   if (product) {
-    res.status(200).json({
+    return res.status(200).json({
       id: product._id,
       description: product.description,
       name: product.name,
@@ -27,30 +25,51 @@ const postProduct = asyncHandler(async (req, res, next) => {
       price: product.price,
     });
   } else {
-   res.status(400);
-    throw new Error("Invalid product data");
+    return res.status(400);
+    
   }
-  
 });
-const getAllProduct =  asyncHandler(async(req,res,next)=>{
+const getAllProduct = asyncHandler(async (req, res, next) => {
   const allProduct = await Product.find();
-  res.status(200).json({allProduct: allProduct});
+  res.status(200).json({ allProduct: allProduct });
 });
 
-const getProductById = asyncHandler(async(req,res,next)=>{
+const getProductById = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
   const product = await Product.findById(id);
-  res.status(200).json({product: product});
-})
-const getUserProduct = asyncHandler(async(req,res,next)=>{
+  res.status(200).json({ product: product });
+});
+const getUserProduct = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
   const user = await User.findById(id);
   const userproductsid = user.products;
   const allproduct = await Product.find();
 
-  const userproducts = await Product.find().where('_id').in(userproductsid).exec();
-  
-  console.log(userproducts);
-  res.status(200).json({userproduct: userproducts});
+  const userproducts = await Product.find()
+    .where("_id")
+    .in(userproductsid)
+    .exec();
+
+  res.status(200).json({ userproduct: userproducts });
+});
+
+const postOffer = asyncHandler(async (req,res,next)=>{
+  const productid = req.params.id;
+  const product = await Product.findById(productid);
+  const {userid,offerprice,username} = req.body;
+  product.offers.push({user: userid,offerprice:offerprice,username:username});
+  product.save();
+  res.status(200).json({
+    message : "success"
+  })
 })
-export { postProduct,getAllProduct, getProductById,getUserProduct };
+
+const getoffer = asyncHandler(async (req,res,next)=>{
+  const productid = req.params.id;
+  const product = await Product.findById(productid);
+  const {offers} = product;
+  res.status(200).json({
+    offers : offers
+  })
+})
+export { postProduct, getAllProduct, getProductById, getUserProduct ,postOffer ,getoffer};

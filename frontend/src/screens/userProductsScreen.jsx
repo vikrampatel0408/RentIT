@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Product from "../components/Product";
 import Header from "../components/Header";
 import Cookies from "js-cookie";
-
+import { useNavigate } from "react-router-dom";
 const UserProductsScreen = () => {
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
@@ -18,16 +18,15 @@ const UserProductsScreen = () => {
         console.error("Error parsing user data from cookies:", error);
       }
     }
-    
+
     const fetchProducts = async () => {
       try {
-        
         const response = await fetch(
           `http://localhost:6969/api/product/userproducts/${id}`
         );
         if (response.ok) {
           const data = await response.json();
-          
+
           setProducts(data.userproduct);
         } else {
           console.error("Failed to fetch products");
@@ -41,10 +40,26 @@ const UserProductsScreen = () => {
   return (
     <>
       <Header />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
-        {products.map((product) => (
-          <Product product={product} key={product._id} />
-        ))} 
+      <div className="gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
+          {products.length ? (
+            products.map((product) => (
+              <Product user={false} product={product} key={product._id} />
+            ))
+          ) : (
+            <h1>No Product Found</h1>
+          )}
+        </div>
+        <div className="flex justify-end ">
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              navigate("/dashboard");
+            }}
+          >
+            Back
+          </button>
+        </div>
       </div>
     </>
   );

@@ -18,6 +18,7 @@ import Postform from "./screens/Postform.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
 import EditProfileScreen from "./screens/EditProfileScreen.jsx";
 import UserProductsScreen from "./screens/userProductsScreen.jsx";
+import OfferScreen from "./screens/OfferScreen.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
       <Route path="/edit-profile" element={<EditProfileScreen />} />
       <Route path="/addproduct" element={<Postform />} />
       <Route path="/userproducts" element={<UserProductsScreen />} />
+      <Route path="/offers/:id" element={<OfferScreen />} />
     </Route>
   )
 );

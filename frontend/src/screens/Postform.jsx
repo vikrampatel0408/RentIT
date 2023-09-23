@@ -32,7 +32,7 @@ const Postform = () => {
     e.preventDefault();
     const parsedUserData = JSON.parse(userData);
     setUserdata(parsedUserData);
-    const id = userdata._id;
+    const id = parsedUserData._id;
     try {
       const response = await fetch("http://localhost:6969/api/product/", {
         method: "POST",
