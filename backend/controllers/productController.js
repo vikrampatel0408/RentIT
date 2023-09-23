@@ -96,5 +96,13 @@ const acceptOffer = asyncHandler(async (req,res,next)=>{
   }
   
 })
-
-export { postProduct, getAllProduct, getProductById, getUserProduct ,postOffer ,getoffer,acceptOffer};
+const userOrders = asyncHandler(async (req,res,next)=>{
+  const id = req.params.id;
+  
+  const product = await Product.find({"offers.user": id});
+  
+  res.status(200).json({
+    product : product 
+  })
+})
+export { postProduct, getAllProduct, getProductById, getUserProduct ,postOffer ,getoffer,acceptOffer,userOrders};
