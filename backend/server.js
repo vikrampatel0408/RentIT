@@ -12,10 +12,17 @@ import Twilio from "twilio";
 db();
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // Replace with your React app's URL
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Enable credentials (cookies, HTTP authentication)
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRoutes);
 app.use("/api/product", prodcutRoutes);
 if (process.env.NODE_ENV === "production") {

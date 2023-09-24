@@ -42,8 +42,8 @@ const LoginScreen = () => {
       } else {
         if (response.status === 401) {
           toast.error("Invalid email or password");
-        } else if(response.status === 400){
-          toast.error("Verify user");
+        } else if (response.status === 400) {
+          toast.error("Email Verification Not Done");
         }
       }
     } catch (error) {

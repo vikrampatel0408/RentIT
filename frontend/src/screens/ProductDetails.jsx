@@ -4,7 +4,8 @@ import { TailSpin } from "react-loader-spinner";
 import { Slider } from "@material-tailwind/react";
 import Header from "../components/Header";
 import Cookies from "js-cookie";
-import { ToastContainer, toast } from "react-toastify";
+import { BiArrowBack } from "react-icons/bi";
+
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -94,40 +95,54 @@ const ProductDetails = () => {
   return (
     <>
       <Header />
+      <div className="flex items-center mb-4">
+        <BiArrowBack
+          className="cursor-pointer text-3xl text-gray-500 hover:text-gray-700"
+          onClick={handleBackButtonClick}
+        />
+      </div>
 
-      <section className="pt-[450px] md:pt-32 pb-[400px] md:pb-12 lg:py-32 h-screen flex items-center pt-0">
-        <ToastContainer />
-        <div className="container mx-auto">
-          <button className="btn btn-primary" onClick={handleBackButtonClick}>
-            Back
-          </button>
-
-          <div className="flex flex-col lg:flex-row items-center ">
-            <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
-              <img className="max-w-[200px] lg:max-w-xs" src={image} alt="" />
-            </div>
-
-            <div className="flex-1 text-center lg:text-left justify-between ">
-              <h1 className="text-[26px] font-medium mb-2 max-w-[450px] mx-auto lg:mx-0">
-                {name}
-              </h1>
-              <div className="text-2xl text-red-500 font-medium mb-6">
-                ₹ {offerprice ? offerprice : price}
+      <section className="pt-16 pb-12 lg:py-32 h-screen flex items-center bg-white shadow-lg my-9 ">
+        <div className="container mx-auto  ">
+          <div className="p-8 rounded-lg ">
+            <div className="flex flex-col lg:flex-row items-center">
+              <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
+                <img
+                  className="max-w-[200px] lg:max-w-xs rounded-lg"
+                  src={`http://localhost:6969/${image}`}
+                  alt=""
+                />
               </div>
-              <p className="mb-8">{description}</p>
-              <div className="flex flex-col">
-                <input
-                  type="range"
-                  onChange={(e) => setOfferprice(e.target.value)}
-                  min={1}
-                  max={price}
-                  step={1}
-                  value={offerprice ? offerprice : price}
-                ></input>
+
+              <div className="flex-1 text-center lg:text-left justify-between">
+                <h1 className="text-3xl font-semibold mb-2 max-w-[450px] mx-auto lg:mx-0">
+                  {name}
+                </h1>
+                <div className="text-2xl text-red-500 font-semibold mb-6">
+                  ₹ {offerprice ? offerprice : price}
+                </div>
+                <p className="text-gray-600 mb-8">{description}</p>
+                <div className="flex flex-col">
+                  <input
+                    type="range"
+                    onChange={(e) => setOfferprice(e.target.value)}
+                    min={1}
+                    max={price}
+                    step={1}
+                    value={offerprice ? offerprice : price}
+                    className="w-full bg-gray-300 appearance-none rounded-md h-5"
+                  />
+                  <p className="text-gray-600 text-center mt-2">
+                    Your Offer: ₹{offerprice}
+                  </p>
+                </div>
+                <button
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 mt-4"
+                  onClick={handleOfferClick}
+                >
+                  Make an Offer
+                </button>
               </div>
-              <button className="btn btn-primary" onClick={handleOfferClick}>
-                Make an offer
-              </button>
             </div>
           </div>
         </div>

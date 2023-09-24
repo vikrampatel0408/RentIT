@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-
+import { BiArrowBack } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 const EditProfileScreen = () => {
   const navigate = useNavigate();
@@ -20,6 +20,9 @@ const EditProfileScreen = () => {
     location: userData.location || "",
     phoneNumber: userData.phoneNumber || "",
   });
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
@@ -43,6 +46,9 @@ const EditProfileScreen = () => {
 
   const handleSendOTP = async (e) => {
     e.preventDefault();
+    if (formData.phoneNumber.length < 10) {
+      toast.error("Please Enter Valid Phone Number");
+    } else {
     const phoneNumber = formData.phoneNumber;
     try {
       const response = await fetch(
@@ -64,6 +70,7 @@ const EditProfileScreen = () => {
       }
     } catch (error) {
       console.log(error);
+      }
     }
   };
 
@@ -142,7 +149,12 @@ const EditProfileScreen = () => {
     <>
       <ToastContainer />
       <Header />
-
+      <div className="flex items-center mb-4">
+        <BiArrowBack
+          className="cursor-pointer text-3xl text-gray-500 hover:text-gray-700"
+          onClick={handleBackButtonClick}
+        />
+      </div>
       <div className="bg-gray-100">
         <div className="container mx-auto my-5 p-5">
           <h1 className="text-2xl font-semibold mb-5">Edit Profile</h1>
@@ -226,7 +238,7 @@ const EditProfileScreen = () => {
               <div className="flex items-center">
                 +91
                 <input
-                  type="text"
+                  type="number"
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}

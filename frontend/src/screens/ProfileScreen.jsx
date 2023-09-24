@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { TailSpin } from "react-loader-spinner";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
-
+import { BiArrowBack } from "react-icons/bi";
 const ProfileScreen = () => {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,9 @@ const ProfileScreen = () => {
       }
     }
   }, [navigate, setLoading]);
-
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
   const hasGender = userData.gender;
   const hasLocation = userData.location;
   const hasPhoneNumber = userData.phoneNumber;
@@ -31,7 +33,12 @@ const ProfileScreen = () => {
   return (
     <>
       <Header />
-
+      <div className="flex items-center mb-4">
+        <BiArrowBack
+          className="cursor-pointer text-3xl text-gray-500 hover:text-gray-700"
+          onClick={handleBackButtonClick}
+        />
+      </div>
       <div>
         {loading ? (
           <div className="text-center">
@@ -52,7 +59,7 @@ const ProfileScreen = () => {
                       <div className="image overflow-hidden">
                         <img
                           className="h-auto w-full mx-auto"
-                          src="https://www.w3schools.com/w3images/team2.jpg"
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSI1DfBDIv-jEpuqQDQx_wQ5p8VogUD6tAn3_V4BrqQlkLdsJ7eqbEiOD8nERJWUzkAMw&usqp=CAU"
                           alt=""
                         />
                       </div>
@@ -149,6 +156,10 @@ const ProfileScreen = () => {
                                   userData.gender.slice(1)
                                 : "Please enter your gender."}
                             </div>
+                          </div>
+                          <div className="grid grid-cols-2">
+                            <div className="px-2 py-2 font-semibold">Email</div>
+                            <div className={"px-2 py-2"}>{userData.email}</div>
                           </div>
                           <div className="grid grid-cols-2">
                             <div className="px-2 py-2 font-semibold">

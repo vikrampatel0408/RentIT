@@ -2,19 +2,32 @@ import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Category from "../models/categoryModel.js";
-const postProduct = asyncHandler(async (req, res, next) => {
-  const { name, description, category, image, price } = req.body;
+
+const postProduct = async (req, res, next) => {
+  const { name, description, category, price } = req.body;
   const id = req.body.id;
+  console.log(req.file);
+  const image = req.file.path;
   
   const category_id = await Category.findOne({ category_name: category });
-  const offers =[];
-  const product = await Product.create({ name, description, image, price,offers , category:category_id.category_name});
-  User.findById(id).then(user =>{
-    if(user !== null){
-    user.products.push(product._id);
-    user.save();
+  const offers = [];
+
+  const product = await Product.create({
+    name,
+    description,
+    image,
+    price,
+    offers,
+    category: category_id.category_name,
+  });
+
+  User.findById(id).then((user) => {
+    if (user !== null) {
+      user.products.push(product._id);
+      user.save();
     }
-   })
+  });
+
   if (product) {
     return res.status(200).json({
       id: product._id,
@@ -26,9 +39,9 @@ const postProduct = asyncHandler(async (req, res, next) => {
     });
   } else {
     return res.status(400);
-    
   }
-});
+};
+
 const getAllProduct = asyncHandler(async (req, res, next) => {
   const allProduct = await Product.find();
   res.status(200).json({ allProduct: allProduct });

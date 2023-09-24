@@ -17,10 +17,10 @@ const Product = ({ product, user, orders }) => {
           <div className="w-[200px] mx-auto flex justify-center items-center">
             {!sold ?(
               <> 
-              <img
-                className="max-h-[160px] group-hover:scale-110 transition duration-300"
-                src={image}
-              />
+            <img
+              className="max-h-[160px] group-hover:scale-110 transition duration-300"
+              src={`http://localhost:6969/${image}`}
+            />
               {orders ? <div
               className="text-3xl font-semibold text-gray-800 "
               style={{
