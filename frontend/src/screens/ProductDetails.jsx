@@ -5,12 +5,11 @@ import { Slider } from "@material-tailwind/react";
 import Header from "../components/Header";
 import Cookies from "js-cookie";
 import { BiArrowBack } from "react-icons/bi";
-
+import { BiMinus, BiPlus } from "react-icons/bi";
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
-  
+
   const handleBackButtonClick = () => {
     navigate(-1);
   };
@@ -59,8 +58,8 @@ const ProductDetails = () => {
         if (userDataFromCookie) {
           try {
             const parsedUserData = JSON.parse(userDataFromCookie);
-           var userid = parsedUserData._id;
-           var username =  parsedUserData.name;
+            var userid = parsedUserData._id;
+            var username = parsedUserData.name;
           } catch (error) {
             console.error("Error parsing user data from cookies:", error);
           }
@@ -72,14 +71,13 @@ const ProductDetails = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ offerprice ,userid,username}),
+            body: JSON.stringify({ offerprice, userid, username }),
           }
         );
         if (response.ok) {
           const data = await response.json();
           console.log("success");
-          toast.success("Offer is sent")
-          
+          toast.success("Offer is sent");
         } else {
           console.error("Failed to post offer");
           toast.error("falied to sent offer");
@@ -108,33 +106,49 @@ const ProductDetails = () => {
             <div className="flex flex-col lg:flex-row items-center">
               <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
                 <img
-                  className="max-w-[200px] lg:max-w-xs rounded-lg"
+                  className="max-w-xs lg:max-w-xl rounded-lg object-cover"
                   src={`http://localhost:6969/${image}`}
                   alt=""
                 />
               </div>
 
-              <div className="flex-1 text-center lg:text-left justify-between">
+              <div className="flex-1 text-center lg:text-left justify-between m-8">
                 <h1 className="text-3xl font-semibold mb-2 max-w-[450px] mx-auto lg:mx-0">
                   {name}
                 </h1>
-                <div className="text-2xl text-red-500 font-semibold mb-6">
-                  ₹ {offerprice ? offerprice : price}
-                </div>
+                <div className="text-2xl font-semibold mb-6">₹ {price}</div>
                 <p className="text-gray-600 mb-8">{description}</p>
-                <div className="flex flex-col">
+                <label
+                  htmlFor="offer-price"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Your Offer: {offerprice}
+                </label>
+                <div className="flex items-center">
+                  <button
+                    className="text-blue-500 mr-2 p-2 hover:text-blue-600"
+                    onClick={() => setOfferprice(offerprice - 1)}
+                    disabled={offerprice <= 1}
+                  >
+                    <BiMinus size={24} />
+                  </button>
                   <input
+                    id="offer-price"
                     type="range"
-                    onChange={(e) => setOfferprice(e.target.value)}
+                    onChange={(e) => setOfferprice(parseInt(e.target.value))}
                     min={1}
                     max={price}
                     step={1}
-                    value={offerprice ? offerprice : price}
-                    className="w-full bg-gray-300 appearance-none rounded-md h-5"
+                    value={offerprice}
+                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                   />
-                  <p className="text-gray-600 text-center mt-2">
-                    Your Offer: ₹{offerprice}
-                  </p>
+                  <button
+                    className="text-blue-500 ml-2 p-2 hover:text-blue-600"
+                    onClick={() => setOfferprice(offerprice + 1)}
+                    disabled={offerprice >= price}
+                  >
+                    <BiPlus size={24} />
+                  </button>
                 </div>
                 <button
                   className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 mt-4"
