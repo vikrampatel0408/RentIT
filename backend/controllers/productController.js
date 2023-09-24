@@ -8,7 +8,7 @@ const postProduct = async (req, res, next) => {
   const id = req.body.id;
   console.log(req.file);
   const image = req.file.path;
-  
+
   const category_id = await Category.findOne({ category_name: category });
   const offers = [];
 
@@ -66,56 +66,96 @@ const getUserProduct = asyncHandler(async (req, res, next) => {
   res.status(200).json({ userproduct: userproducts });
 });
 
-const postOffer = asyncHandler(async (req,res,next)=>{
+const postOffer = asyncHandler(async (req, res, next) => {
   const productid = req.params.id;
   const product = await Product.findById(productid);
-  const {userid,offerprice,username} = req.body;
-  product.offers.push({user: userid,offerprice:offerprice,username:username});
+  const { userid, offerprice, username } = req.body;
+  product.offers.push({
+    user: userid,
+    offerprice: offerprice,
+    username: username,
+  });
   product.save();
   res.status(200).json({
-    message : "success"
-  })
-})
+    message: "success",
+  });
+});
 
-const getoffer = asyncHandler(async (req,res,next)=>{
+const getoffer = asyncHandler(async (req, res, next) => {
   const productid = req.params.id;
   const product = await Product.findById(productid);
-  const {offers} = product;
+  const { offers } = product;
   res.status(200).json({
-    offers : offers
-  })
-})
+    offers: offers,
+  });
+});
+const rejectOffer = asyncHandler(async (req, res) => {
+  const offerId = req.body.offerId;
+  const productId = req.body.productid;
 
-const acceptOffer = asyncHandler(async (req,res,next)=>{
+  try {
+    const product = await Product.findById(productId);
+    product.offers = product.offers.filter(
+      (offer) => offer._id.toString() !== offerId.toString()
+    );
+
+    await product.save();
+
+    res.status(200).json({ message: "Offer rejected successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+const acceptOffer = asyncHandler(async (req, res, next) => {
   const productid = req.params.id;
   const product = await Product.findById(productid);
   const offer_id = req.body.offer_id;
-  const correctoffer = product.offers.find(offer => offer._id == offer_id );
-  
-  if(correctoffer){
+  const correctoffer = product.offers.find((offer) => offer._id == offer_id);
+  if (correctoffer) {
+    product.sold = true;
+    product.offers = [];
+    product.offers.push(correctoffer);
+    product.price = correctoffer.offerprice;
+    product.save();
+    return res.status(200).json({
+      message: "offer accepted",
+    });
+  } else {
+    return res.status(400).json({
+      message: "no offer found",
+    });
+  }
+});
+
+const userOrders = asyncHandler(async (req, res, next) => {
+  const id = req.params.id;
+  const product = await Product.find({ "offers.user": id });
+  res.status(200).json({
+    product: product,
+  });
+});
+
+const getMarkSold = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const product = await Product.findById(id);
   product.sold = true;
-  product.offers = [];
-  product.offers.push(correctoffer);
-  product.price = correctoffer.offerprice;
   product.save();
   return res.status(200).json({
-    message: "offer accepted"
-  })
-  }
-  else{
-   return res.status(400).json({
-      message: "no offer found"
-    })
-  }
-  
-})
-const userOrders = asyncHandler(async (req,res,next)=>{
-  const id = req.params.id;
-  
-  const product = await Product.find({"offers.user": id});
-  
-  res.status(200).json({
-    product : product 
-  })
-})
-export { postProduct, getAllProduct, getProductById, getUserProduct ,postOffer ,getoffer,acceptOffer,userOrders};
+    message: "Marked As Sold",
+  });
+});
+
+export {
+  postProduct,
+  getAllProduct,
+  getProductById,
+  getUserProduct,
+  postOffer,
+  getoffer,
+  acceptOffer,
+  userOrders,
+  rejectOffer,
+  getMarkSold,
+};

@@ -3,10 +3,14 @@ import Product from "../components/Product";
 import Header from "../components/Header";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
 const UserOrdersScreen = () => {
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
   const navigate = useNavigate();
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
@@ -40,25 +44,26 @@ const UserOrdersScreen = () => {
   return (
     <>
       <Header />
+      <div className="flex items-center mb-4">
+        <BiArrowBack
+          className="cursor-pointer text-3xl text-gray-500 hover:text-gray-700"
+          onClick={handleBackButtonClick}
+        />
+      </div>
       <div className="gap-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
           {products.length ? (
             products.map((product) => (
-              <Product user={true} orders={true} product={product} key={product._id} />
+              <Product
+                user={true}
+                orders={true}
+                product={product}
+                key={product._id}
+              />
             ))
           ) : (
             <h1>No Product Found</h1>
           )}
-        </div>
-        <div className="flex justify-end ">
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              navigate("/dashboard");
-            }}
-          >
-            Back
-          </button>
         </div>
       </div>
     </>

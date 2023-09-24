@@ -3,43 +3,57 @@ import { Link, useLocation } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 import { BsPlus, BsEyeFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Product = ({ product, user, orders }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const userData = location.state;
+
+  const handleMarkSold = async (req, res) => {
+    const response = await fetch(
+      `http://localhost:6969/api/product/marksold/${product._id}`
+    );
+    if (response.ok) {
+      toast.success("Product Sold");
+      navigate(-1);
+    }
+  };
 
   const { _id, image, category, name, price, sold } = product;
   return (
     <div>
       <div className="border border-[#e4e4e4] h-[300px] mb-4 relative overflow-hidden group transition">
+        {user.name}
         <div className="w-full h-full flex justify-center items-center">
           {/* image */}
           <div className="w-[200px] mx-auto flex justify-center items-center">
-            {!sold ?(
-              <> 
-            <img
-              className="max-h-[160px] group-hover:scale-110 transition duration-300"
-              src={`http://localhost:6969/${image}`}
-            />
-              {orders ? <div
-              className="text-3xl font-semibold text-gray-800 "
-              style={{
-                position: "absolute",
-                bottom: "9px",
-                right: "20%",
-                transform: "translate(-50%,-50%)",
-              }}
-            >
-              Pending
-            </div>:<></> }
-              
-            </>
-             ): (
+            {!sold ? (
+              <>
+                <img
+                  className="max-h-[160px] group-hover:scale-110 transition duration-300"
+                  src={`http://localhost:6969/${image}`}
+                />
+                {orders ? (
+                  <div
+                    className="text-3xl font-semibold text-gray-800 "
+                    style={{
+                      position: "absolute",
+                      bottom: "9px",
+                      right: "20%",
+                      transform: "translate(-50%,-50%)",
+                    }}
+                  >
+                    Pending
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
               <>
                 <img
                   className="max-h-[160px] group-hover:scale-110 transition duration-300"
                   style={{ filter: "grayscale(100%)" }}
-                  src={image}
+                  src={`http://localhost:6969/${image}`}
                 />
                 {!orders ? (
                   <div
@@ -94,11 +108,7 @@ const Product = ({ product, user, orders }) => {
       <div className="flex flex-col justify-center items-center">
         <div className="tex-sm capitalize text-gray-500 mb-1">{category}</div>
         {!user ? (
-          <Link
-            className="no-underline text-gray-800 "
-            to={`/product/${_id}`}
-            state={userData}
-          >
+          <Link className="no-underline text-gray-800 " to={`/product/${_id}`}>
             <h2 className="font-semibold mb-1 text-lg">{name}</h2>
           </Link>
         ) : (
@@ -117,7 +127,12 @@ const Product = ({ product, user, orders }) => {
           >
             View offers
           </button>
-          <button type="button" className="btn btn-primary" width="100">
+          <button
+            type="button"
+            className="btn btn-primary"
+            width="100"
+            onClick={handleMarkSold}
+          >
             Mark as sold
           </button>
         </div>

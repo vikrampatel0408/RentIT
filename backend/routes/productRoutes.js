@@ -1,6 +1,17 @@
 import express from "express";
 import { protect } from "../middlerware/authMiddleware.js";
-import { getAllProduct, getProductById, postProduct,getUserProduct,postOffer,getoffer,acceptOffer,userOrders } from "../controllers/productController.js";
+import {
+  getAllProduct,
+  getProductById,
+  postProduct,
+  getUserProduct,
+  postOffer,
+  getoffer,
+  acceptOffer,
+  userOrders,
+  rejectOffer,
+  getMarkSold,
+} from "../controllers/productController.js";
 const router = express.Router();
 import path from "path";
 import multer from "multer";
@@ -18,15 +29,18 @@ const storage = multer.diskStorage({
     );
   },
 });
-
 // const upload = multer({ storage: storage });
 const upload = multer({ dest: "uploads/" });
+
 router.post("/", upload.single("file"), postProduct);
-router.get("/allproduct",getAllProduct);
-router.get("/:id",getProductById);
-router.get("/userproducts/:id",getUserProduct);
-router.post("/offer/:id",postOffer);
-router.get("/offer/:id",getoffer);
-router.post("/offer/accept/:id",acceptOffer);
-router.get("/userorders/:id",userOrders);
+router.get("/allproduct", getAllProduct);
+router.get("/marksold/:id", getMarkSold);
+router.get("/:id", getProductById);
+router.get("/userproducts/:id", getUserProduct);
+router.post("/offer/:id", postOffer);
+router.get("/offer/:id", getoffer);
+router.post("/offer/accept/:id", acceptOffer);
+router.post("/offer/reject/:id", rejectOffer);
+router.get("/userorders/:id", userOrders);
+
 export default router;

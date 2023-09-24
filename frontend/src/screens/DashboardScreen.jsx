@@ -109,7 +109,7 @@ const DashboardScreen = () => {
           </div>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary mt-3"
             width="100"
             onClick={handleSellClick}
           >
@@ -134,11 +134,13 @@ const DashboardScreen = () => {
             </section>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
-              {(searchInput ? filteredProducts : products).map((product) => (
-                !product.sold ?
-                <Product user={false} product={product} key={product.id} />
-                : <></>
-              ))}
+              {(searchInput ? filteredProducts : products).map((product) =>
+                !product.sold ? (
+                  <Product user={false} product={product} key={product.id} />
+                ) : (
+                  <></>
+                )
+              )}
             </div>
           )}
         </div>

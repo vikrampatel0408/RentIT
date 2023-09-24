@@ -1,13 +1,28 @@
 import mongoose from "mongoose";
-import Product from "./productModel.js";
 
 const categorySchema = mongoose.Schema({
-    category_name: {
-        type:  String,
-        required: true,
+  category_name: {
+    type: String,
+    required: true,
+  },
+  subcategories: [
+    {
+      name: String,
+      subcategories: [
+        {
+          name: String,
+          subcategories: [
+            {
+              name: String,
+              // You can continue nesting subcategories as needed
+            },
+          ],
+        },
+      ],
     },
-    
+  ],
 });
 
 const Category = mongoose.model("Category", categorySchema);
+
 export default Category;
