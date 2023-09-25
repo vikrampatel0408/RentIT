@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { TailSpin } from "react-loader-spinner";
+import { ToastContainer, toast } from "react-toastify";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
@@ -33,6 +34,7 @@ const ProfileScreen = () => {
   return (
     <>
       <Header />
+      <ToastContainer />
       <div className="flex items-center mb-4">
         <BiArrowBack
           className="cursor-pointer text-3xl text-gray-500 hover:text-gray-700"

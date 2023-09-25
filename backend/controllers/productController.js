@@ -4,7 +4,7 @@ import User from "../models/userModel.js";
 import Category from "../models/categoryModel.js";
 
 const postProduct = async (req, res, next) => {
-  const { name, description, category, price } = req.body;
+  const { name, description, category, price, days } = req.body;
   const id = req.body.id;
   console.log(req.file);
   const image = req.file.path;
@@ -19,6 +19,7 @@ const postProduct = async (req, res, next) => {
     price,
     offers,
     category: category_id.category_name,
+    days,
   });
 
   User.findById(id).then((user) => {
@@ -36,6 +37,7 @@ const postProduct = async (req, res, next) => {
       category: product.category,
       image: product.image,
       price: product.price,
+      days: product.days,
     });
   } else {
     return res.status(400);

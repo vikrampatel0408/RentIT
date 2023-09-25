@@ -88,7 +88,7 @@ const ProductDetails = () => {
     };
     postOffer();
   };
-  const { name, price, description, image } = product;
+  const { name, price, description, image, days } = product;
 
   return (
     <>
@@ -118,6 +118,8 @@ const ProductDetails = () => {
                 </h1>
                 <div className="text-2xl font-semibold mb-6">₹ {price}</div>
                 <p className="text-gray-600 mb-8">{description}</p>
+                <p className="text-black">For {days} Days</p>
+
                 <label
                   htmlFor="offer-price"
                   className="block mb-2 text-sm font-medium text-gray-900 "
