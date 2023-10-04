@@ -10,7 +10,7 @@ export default defineConfig({
       // insted of http:localhost/3000 when ever this is /api
       "/api": {
         changeOrigin: true,
-        target: "http://localhost:6969",
+        target: "https://rent-it-api.vercel.app",
       },
     },
   },

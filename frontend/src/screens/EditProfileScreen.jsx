@@ -49,27 +49,27 @@ const EditProfileScreen = () => {
     if (formData.phoneNumber.length < 10) {
       toast.error("Please Enter Valid Phone Number");
     } else {
-    const phoneNumber = formData.phoneNumber;
-    try {
-      const response = await fetch(
-        "http://localhost:6969/api/users/twilio-sms/send-otp",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ phoneNumber }),
-        }
-      );
-      if (response.ok) {
-        toast.success("OTP sent successfully");
+      const phoneNumber = formData.phoneNumber;
+      try {
+        const response = await fetch(
+          "https://rent-it-api.vercel.app/api/users/twilio-sms/send-otp",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ phoneNumber }),
+          }
+        );
+        if (response.ok) {
+          toast.success("OTP sent successfully");
 
-        setShowOtpInput(true);
-      } else {
-        toast.error("Please Enter Valid Phone Number");
-      }
-    } catch (error) {
-      console.log(error);
+          setShowOtpInput(true);
+        } else {
+          toast.error("Please Enter Valid Phone Number");
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
   };
@@ -88,7 +88,7 @@ const EditProfileScreen = () => {
     const phoneNumber = formData.phoneNumber;
     try {
       const response = await fetch(
-        "http://localhost:6969/api/users/twilio-sms/verify-otp",
+        "https://rent-it-api.vercel.app/api/users/twilio-sms/verify-otp",
         {
           method: "POST",
           headers: {
@@ -117,13 +117,16 @@ const EditProfileScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:6969/api/users/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://rent-it-api.vercel.app/api/users/profile",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       if (response.ok) {
         const updatedUserData = await response.json();
         console.log(updatedUserData);

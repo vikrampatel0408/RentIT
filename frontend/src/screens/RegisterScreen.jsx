@@ -26,7 +26,7 @@ function RegisterScreen() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:6969/api/users", {
+      const response = await fetch("https://rent-it-api.vercel.app/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

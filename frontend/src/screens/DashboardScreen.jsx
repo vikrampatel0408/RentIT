@@ -33,7 +33,7 @@ const DashboardScreen = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "http://localhost:6969/api/product/allproduct"
+          "https://rent-it-api.vercel.app/api/product/allproduct"
         );
         if (response.ok) {
           const data = await response.json();

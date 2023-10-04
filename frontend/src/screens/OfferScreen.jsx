@@ -16,7 +16,7 @@ const OfferScreen = () => {
     const fetchOffers = async () => {
       try {
         const response = await fetch(
-          `http://localhost:6969/api/product/offer/${id}`
+          `https://rent-it-api.vercel.app/api/product/offer/${id}`
         );
         if (response.ok) {
           const data = await response.json();

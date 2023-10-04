@@ -25,13 +25,16 @@ const LoginScreen = () => {
   const handlesubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:6969/api/users/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://rent-it-api.vercel.app/api/users/auth",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();

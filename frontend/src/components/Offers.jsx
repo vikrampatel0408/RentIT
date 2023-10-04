@@ -7,7 +7,7 @@ const Offers = ({ offer, productid }) => {
     try {
       const offerId = offer._id;
       const response = await fetch(
-        `http://localhost:6969/api/product/offer/reject/${productid}`,
+        `https://rent-it-api.vercel.app/api/product/offer/reject/${productid}`,
         {
           method: "POST",
           headers: {
@@ -36,7 +36,7 @@ const Offers = ({ offer, productid }) => {
     try {
       var offer_id = offer._id;
       const response = await fetch(
-        `http://localhost:6969/api/product/offer/accept/${productid}`,
+        `https://rent-it-api.vercel.app/api/product/offer/accept/${productid}`,
         {
           method: "POST",
           headers: {

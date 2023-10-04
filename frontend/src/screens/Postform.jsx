@@ -53,7 +53,7 @@ const Postform = () => {
       formData.append("days", days);
       try {
         const response = await axios.post(
-          "http://localhost:6969/api/product/",
+          "https://rent-it-api.vercel.app/api/product/",
           formData,
           {
             headers: {
@@ -156,7 +156,6 @@ const Postform = () => {
 
                     <MDBCol md="9" className="pe-5">
                       <MDBInput
-                        label="Enter price in ruppees"
                         size="lg"
                         type="number"
                         value={days}

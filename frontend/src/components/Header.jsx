@@ -12,12 +12,15 @@ const Header = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:6969/api/users/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://rent-it-api.vercel.app/api/users/logout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.status === 200) {
         Cookies.remove("userData");
         setUserData(null);

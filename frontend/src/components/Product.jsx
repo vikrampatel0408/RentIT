@@ -10,7 +10,7 @@ const Product = ({ product, user, orders }) => {
 
   const handleMarkSold = async (req, res) => {
     const response = await fetch(
-      `http://localhost:6969/api/product/marksold/${product._id}`
+      `https://rent-it-api.vercel.app/api/product/marksold/${product._id}`
     );
     if (response.ok) {
       toast.success("Product Sold");
@@ -30,7 +30,7 @@ const Product = ({ product, user, orders }) => {
               <>
                 <img
                   className="max-h-[160px] group-hover:scale-110 transition duration-300"
-                  src={`http://localhost:6969/${image}`}
+                  src={`https://rent-it-api.vercel.app/${image}`}
                 />
                 {orders ? (
                   <div
@@ -53,7 +53,7 @@ const Product = ({ product, user, orders }) => {
                 <img
                   className="max-h-[160px] group-hover:scale-110 transition duration-300"
                   style={{ filter: "grayscale(100%)" }}
-                  src={`http://localhost:6969/${image}`}
+                  src={`https://rent-it-api.vercel.app/${image}`}
                 />
                 {!orders ? (
                   <div
