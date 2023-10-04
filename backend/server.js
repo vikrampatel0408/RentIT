@@ -1,6 +1,6 @@
 import path from "path";
 import express from "express";
-const port = 6969;
+const port = 8080;
 import dotenv from "dotenv";
 import db from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
