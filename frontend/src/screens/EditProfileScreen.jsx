@@ -52,7 +52,7 @@ const EditProfileScreen = () => {
       const phoneNumber = formData.phoneNumber;
       try {
         const response = await fetch(
-          "https://rent-it-api.vercel.app/api/users/twilio-sms/send-otp",
+          "https://rentit-api.onrender.com/api/users/twilio-sms/send-otp",
           {
             method: "POST",
             headers: {
@@ -88,7 +88,7 @@ const EditProfileScreen = () => {
     const phoneNumber = formData.phoneNumber;
     try {
       const response = await fetch(
-        "https://rent-it-api.vercel.app/api/users/twilio-sms/verify-otp",
+        "https://rentit-api.onrender.com/api/users/twilio-sms/verify-otp",
         {
           method: "POST",
           headers: {
@@ -118,7 +118,7 @@ const EditProfileScreen = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://rent-it-api.vercel.app/api/users/profile",
+        "https://rentit-api.onrender.com/api/users/profile",
         {
           method: "PUT",
           headers: {

@@ -13,7 +13,7 @@ const Header = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://rent-it-api.vercel.app/api/users/logout",
+        "https://rentit-api.onrender.com/api/users/logout",
         {
           method: "POST",
           headers: {

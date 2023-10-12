@@ -10,7 +10,7 @@ const Product = ({ product, user, orders }) => {
 
   const handleMarkSold = async (req, res) => {
     const response = await fetch(
-      `https://rent-it-api.vercel.app/api/product/marksold/${product._id}`
+      `https://rentit-api.onrender.com/api/product/marksold/${product._id}`
     );
     if (response.ok) {
       toast.success("Product Sold");
@@ -30,7 +30,7 @@ const Product = ({ product, user, orders }) => {
               <>
                 <img
                   className="max-h-[160px] group-hover:scale-110 transition duration-300"
-                  src={`https://rent-it-api.vercel.app/${image}`}
+                  src={`https://rentit-api.onrender.com/${image}`}
                 />
                 {orders ? (
                   <div
@@ -49,27 +49,26 @@ const Product = ({ product, user, orders }) => {
                 )}
               </>
             ) : (
-              <>
+              <div className="justify-center items-center">
                 <img
                   className="max-h-[160px] group-hover:scale-110 transition duration-300"
                   style={{ filter: "grayscale(100%)" }}
-                  src={`https://rent-it-api.vercel.app/${image}`}
+                  src={`https://rentit-api.onrender.com/${image}`}
                 />
                 {!orders ? (
                   <div
-                    className="text-3xl font-semibold text-gray-800 "
+                    className="text-3xl font-semibold text-gray-800  "
                     style={{
                       position: "absolute",
-                      bottom: "9px",
-                      right: "35%",
+
                       transform: "translate(-50%,-50%)",
                     }}
                   >
-                    Sold
+                    <h4>Sold</h4>
                   </div>
                 ) : (
                   <div
-                    className="text-3xl font-semibold text-gray-800 "
+                    className="text-3xl font-semibold text-gray-800 items-center "
                     style={{
                       position: "absolute",
                       bottom: "9px",
@@ -77,10 +76,10 @@ const Product = ({ product, user, orders }) => {
                       transform: "translate(-50%,-50%)",
                     }}
                   >
-                    Accepted
+                    <h4>Accepted</h4>
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
         </div>

@@ -26,7 +26,11 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const response = await fetch(
-        "https://rent-it-api.vercel.app/api/users/auth",
+
+
+
+      
+        "https://rentit-api.onrender.com/api/users/auth",
         {
           method: "POST",
           headers: {

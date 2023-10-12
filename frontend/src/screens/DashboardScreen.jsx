@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Product from "../components/Product";
 import { TailSpin } from "react-loader-spinner";
@@ -33,7 +34,7 @@ const DashboardScreen = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "https://rent-it-api.vercel.app/api/product/allproduct"
+          "https://rentit-api.onrender.com/api/product/allproduct"
         );
         if (response.ok) {
           const data = await response.json();
@@ -107,15 +108,14 @@ const DashboardScreen = () => {
               </div>
             </form>
           </div>
-          <button
-            type="button"
-            className="btn btn-primary mt-3"
-            width="100"
-            onClick={handleSellClick}
-          >
-            Sell it
-          </button>
 
+          <div class="group fixed bottom-0 right-0 p-2  flex items-end justify-end w-24 h-24 z-50">
+            <div class="text-white shadow-xl flex items-center justify-center p-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 z-50 absolute  ">
+              <button type="button" onClick={handleSellClick}>
+                <FaPlus className="text-xl" />
+              </button>
+            </div>
+          </div>
           <h2 className="text-3xl font-semibold mb-10 text-center py-6">
             Explore Items
           </h2>

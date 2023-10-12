@@ -1,6 +1,6 @@
 import path from "path";
 import express from "express";
-const port = 8080;
+const port = process.env.port || 8080;
 import dotenv from "dotenv";
 import db from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -27,10 +27,10 @@ app.use("/api/users", userRoutes);
 app.use("/api/product", prodcutRoutes);
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.use(express.static(path.join(__dirname, "/frontend")));
 
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+    res.sendFile(path.resolve(__dirname, "frontend", "index.html"))
   );
 } else {
   app.get("/", (req, res) => {

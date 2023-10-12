@@ -53,7 +53,7 @@ const Postform = () => {
       formData.append("days", days);
       try {
         const response = await axios.post(
-          "https://rent-it-api.vercel.app/api/product/",
+          "https://rentit-api.onrender.com/api/product/",
           formData,
           {
             headers: {

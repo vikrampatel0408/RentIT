@@ -26,7 +26,7 @@ const UserProductsScreen = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          `https://rent-it-api.vercel.app/api/product/userproducts/${id}`
+          `https://rentit-api.onrender.com/api/product/userproducts/${id}`
         );
         if (response.ok) {
           const data = await response.json();

@@ -20,7 +20,7 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `https://rent-it-api.vercel.app/api/product/${id}`
+          `https://rentit-api.onrender.com/api/product/${id}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -67,7 +67,7 @@ const ProductDetails = () => {
           }
         }
         const response = await fetch(
-          `https://rent-it-api.vercel.app/api/product/offer/${id}`,
+          `https://rentit-api.onrender.com/api/product/offer/${id}`,
           {
             method: "POST",
             headers: {
@@ -109,7 +109,7 @@ const ProductDetails = () => {
               <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
                 <img
                   className="max-w-xs lg:max-w-xl rounded-lg object-cover"
-                  src={`https://rent-it-api.vercel.app/${image}`}
+                  src={`https://rentit-api.onrender.com/${image}`}
                   alt=""
                 />
               </div>

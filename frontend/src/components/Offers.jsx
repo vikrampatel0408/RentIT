@@ -7,7 +7,11 @@ const Offers = ({ offer, productid }) => {
     try {
       const offerId = offer._id;
       const response = await fetch(
-        `https://rent-it-api.vercel.app/api/product/offer/reject/${productid}`,
+        `https://rentit-api.onrender.com
+        
+        
+        
+        /api/product/offer/reject/${productid}`,
         {
           method: "POST",
           headers: {
@@ -36,7 +40,7 @@ const Offers = ({ offer, productid }) => {
     try {
       var offer_id = offer._id;
       const response = await fetch(
-        `https://rent-it-api.vercel.app/api/product/offer/accept/${productid}`,
+        `https://rentit-api.onrender.com/api/product/offer/accept/${productid}`,
         {
           method: "POST",
           headers: {
