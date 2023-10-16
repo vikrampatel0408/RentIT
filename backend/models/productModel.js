@@ -24,10 +24,13 @@ const productSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+
   offers: {
     type: [
       {
         user: mongoose.Schema.Types.ObjectId,
+        userEmail: String,
+        userPhoneNo: String,
         offerprice: Number,
         username: String,
       },

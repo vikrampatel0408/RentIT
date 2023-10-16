@@ -5,22 +5,6 @@ const categorySchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  subcategories: [
-    {
-      name: String,
-      subcategories: [
-        {
-          name: String,
-          subcategories: [
-            {
-              name: String,
-              // You can continue nesting subcategories as needed
-            },
-          ],
-        },
-      ],
-    },
-  ],
 });
 
 const Category = mongoose.model("Category", categorySchema);

@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js ",
     "server": "nodemon backend/server.js",
     "client": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run server \" \"npm run client\""
@@ -13,6 +14,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.0",

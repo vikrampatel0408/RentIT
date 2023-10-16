@@ -2,7 +2,14 @@ import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
 import Category from "../models/categoryModel.js";
+import nodemailer from "nodemailer";
+var smtpConfig = {
+  service: "gmail",
+  // use SSL
+  auth: { user: "medigo777@gmail.com", pass: "adfhbsdtrhgrsoqi" },
+};
 
+const transporter = nodemailer.createTransport(smtpConfig);
 const postProduct = async (req, res, next) => {
   const { name, description, category, price, days } = req.body;
   const id = req.body.id;
@@ -71,9 +78,12 @@ const getUserProduct = asyncHandler(async (req, res, next) => {
 const postOffer = asyncHandler(async (req, res, next) => {
   const productid = req.params.id;
   const product = await Product.findById(productid);
-  const { userid, offerprice, username } = req.body;
+  const { userid, offerprice, username, userEmail, userPhoneNo } = req.body;
+  console.log(req.body);
   product.offers.push({
     user: userid,
+    userEmail: userEmail,
+    userPhoneNo: userPhoneNo,
     offerprice: offerprice,
     username: username,
   });
@@ -115,12 +125,42 @@ const acceptOffer = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(productid);
   const offer_id = req.body.offer_id;
   const correctoffer = product.offers.find((offer) => offer._id == offer_id);
+
+  console.log(correctoffer);
   if (correctoffer) {
     product.sold = true;
     product.offers = [];
     product.offers.push(correctoffer);
     product.price = correctoffer.offerprice;
     product.save();
+    const mailOptions = {
+      from: "medigo777@gmail.com",
+      to: req.body.userData.email,
+      subject: "Offer Details",
+      html: `
+        <html>
+          <body>
+            <h1>Hello ${req.body.userData.name},</h1>
+            <p>Here are the details of the deal:</p>
+            <ul>
+              <li>User Name: ${correctoffer.username}</li>
+              <li>User Email: ${correctoffer.userEmail}</li>
+              <li>User Phone Number: ${correctoffer.userPhoneNo}</li>
+              <li>Offer Price: ₹${correctoffer.offerprice}</li>
+            </ul>
+            <h3>You can use these details for further communication.</h3><br />
+            <p>Thank you for using RentIT. Have a nice day.</p>
+          </body>
+        </html>
+      `,
+    };
+    await transporter.sendMail(mailOptions, (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("The email was sent successfully");
+      }
+    });
     return res.status(200).json({
       message: "offer accepted",
     });

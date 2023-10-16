@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import Cookies from "js-cookie";
 import { BiArrowBack } from "react-icons/bi";
 import { BiMinus, BiPlus } from "react-icons/bi";
+import { toast, ToastContainer } from "react-toastify";
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -19,9 +20,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(
-          `https://rentit-api.onrender.com/api/product/${id}`
-        );
+        const response = await fetch(`https://rentit-api.onrender.com/api/product/${id}`);
         if (response.ok) {
           const data = await response.json();
           setProduct(data.product);
@@ -41,8 +40,8 @@ const ProductDetails = () => {
     return (
       <section className="h-screen flex justify-center items-center">
         <TailSpin
-          height="80"
-          width="80"
+          height="50"
+          width="50"
           color="grey"
           ariaLabel="tail-spin-loading"
           radius="1"
@@ -60,11 +59,22 @@ const ProductDetails = () => {
         if (userDataFromCookie) {
           try {
             const parsedUserData = JSON.parse(userDataFromCookie);
+            if (!parsedUserData.phoneNumber) {
+              toast.error("Please do OTP verification");
+              navigate("/edit-profile");
+              return;
+            }
             var userid = parsedUserData._id;
             var username = parsedUserData.name;
+            var userEmail = parsedUserData.email;
+            var userPhoneNo = parsedUserData.phoneNumber;
           } catch (error) {
             console.error("Error parsing user data from cookies:", error);
           }
+        } else {
+          if (!userDataFromCookie) toast.error("User is not logged in.");
+          navigate("/login");
+          return;
         }
         const response = await fetch(
           `https://rentit-api.onrender.com/api/product/offer/${id}`,
@@ -73,11 +83,17 @@ const ProductDetails = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ offerprice, userid, username }),
+            body: JSON.stringify({
+              offerprice,
+              userid,
+              username,
+              userEmail,
+              userPhoneNo,
+            }),
           }
         );
         if (response.ok) {
-          const data = await response.json();
+          // const data = await response.json();
           console.log("success");
           toast.success("Offer is sent");
         } else {
@@ -95,6 +111,7 @@ const ProductDetails = () => {
   return (
     <>
       <Header />
+      <ToastContainer />
       <div className="flex items-center mb-4">
         <BiArrowBack
           className="cursor-pointer text-3xl text-gray-500 hover:text-gray-700"
@@ -126,11 +143,11 @@ const ProductDetails = () => {
                   htmlFor="offer-price"
                   className="block mb-2 text-sm font-medium text-gray-900 "
                 >
-                  Your Offer: {offerprice}
+                  Your Offer : ₹ {offerprice}
                 </label>
                 <div className="flex items-center">
                   <button
-                    className="text-blue-500 mr-2 p-2 hover:text-blue-600"
+                    className="btn text-black ml-2 p-2"
                     onClick={() => setOfferprice(offerprice - 1)}
                     disabled={offerprice <= 1}
                   >
@@ -147,7 +164,7 @@ const ProductDetails = () => {
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                   />
                   <button
-                    className="text-blue-500 ml-2 p-2 hover:text-blue-600"
+                    className="btn text-black ml-2 p-2"
                     onClick={() => setOfferprice(offerprice + 1)}
                     disabled={offerprice >= price}
                   >
@@ -155,7 +172,7 @@ const ProductDetails = () => {
                   </button>
                 </div>
                 <button
-                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 mt-4"
+                  className="bg-black text-white py-2 px-4 rounded-md  mt-4"
                   onClick={handleOfferClick}
                 >
                   Make an Offer

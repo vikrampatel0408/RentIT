@@ -58,8 +58,9 @@ function RegisterScreen() {
             className="text-center text-md-start d-flex flex-column justify-content-center"
           >
             <h1 className="my-5 display-3 fw-bold ls-tight px-3">
-              RentIt <br />
-              <span className="text-primary">For Everything</span>
+              <span className="text-primary">RentIt</span>
+              <br />
+              For Everything
             </h1>
 
             <ToastContainer />

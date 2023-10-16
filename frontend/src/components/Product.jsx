@@ -56,14 +56,7 @@ const Product = ({ product, user, orders }) => {
                   src={`https://rentit-api.onrender.com/${image}`}
                 />
                 {!orders ? (
-                  <div
-                    className="text-3xl font-semibold text-gray-800  "
-                    style={{
-                      position: "absolute",
-
-                      transform: "translate(-50%,-50%)",
-                    }}
-                  >
+                  <div className="text-3xl font-semibold text-gray-800  items-center text-center mt-5">
                     <h4>Sold</h4>
                   </div>
                 ) : (
@@ -120,16 +113,15 @@ const Product = ({ product, user, orders }) => {
         <div className="flex flex-row justify-center gap-2">
           <button
             type="button"
-            className="btn btn-primary"
-            width="100"
+            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm p-2  mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
             onClick={() => navigate(`/offers/${_id}`)}
           >
             View offers
           </button>
+
           <button
             type="button"
-            className="btn btn-primary"
-            width="100"
+            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm p-2  mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
             onClick={handleMarkSold}
           >
             Mark as sold

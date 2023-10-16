@@ -1,17 +1,14 @@
 import React, { useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-const Offers = ({ offer, productid }) => {
+
+const Offers = ({ userData, offer, productid }) => {
   const navigate = useNavigate();
   const handleRejectOffer = async () => {
     try {
       const offerId = offer._id;
       const response = await fetch(
-        `https://rentit-api.onrender.com
-        
-        
-        
-        /api/product/offer/reject/${productid}`,
+        `https://rentit-api.onrender.com/api/product/offer/reject/${productid}`,
         {
           method: "POST",
           headers: {
@@ -48,6 +45,7 @@ const Offers = ({ offer, productid }) => {
           },
           body: JSON.stringify({
             offer_id,
+            userData,
           }),
         }
       );
@@ -66,18 +64,22 @@ const Offers = ({ offer, productid }) => {
   };
 
   return (
-    <li className="list-group-item">
-      <div className="flex flex-row justify-between text-lg capitalize  mb-1">
-        <span>User: {offer.username}</span>
-        <span>Price: {offer.offerprice}</span>
-        <button className="btn btn-primary" onClick={acceptOffer}>
-          Accept
-        </button>
-        <button className="btn btn-danger" onClick={handleRejectOffer}>
-          Reject
-        </button>
-      </div>
-    </li>
+    <>
+      <ToastContainer />
+
+      <li className="list-group-item">
+        <div className="flex flex-row justify-between text-lg capitalize  mb-1">
+          <span>User: {offer.username}</span>
+          <span>Price: {offer.offerprice}</span>
+          <button className="btn btn-primary" onClick={acceptOffer}>
+            Accept
+          </button>
+          <button className="btn btn-danger" onClick={handleRejectOffer}>
+            Reject
+          </button>
+        </div>
+      </li>
+    </>
   );
 };
 

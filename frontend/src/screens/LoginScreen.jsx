@@ -25,20 +25,13 @@ const LoginScreen = () => {
   const handlesubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-
-
-
-      
-        "https://rentit-api.onrender.com/api/users/auth",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch("https://rentit-api.onrender.com/api/users/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -69,8 +62,7 @@ const LoginScreen = () => {
             className="text-center text-md-start d-flex flex-column justify-content-center"
           >
             <h1 className="my-5 display-3 fw-bold ls-tight px-3">
-              RentIt <br />
-              <span className="text-primary">For Everything</span>
+              <span className="text-primary">RentIt</span><br />For Everything
             </h1>
 
             <ToastContainer />

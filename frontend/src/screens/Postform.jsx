@@ -30,19 +30,89 @@ const Postform = () => {
   const [productdata, setProductdata] = useState(null);
   const userData = Cookies.get("userData");
   const [userdata, setUserdata] = useState([]);
+
+  const categoryOptions = [
+    "Houses & Apartments",
+    "Shops & Offices",
+    "Lands & Plots",
+    "Data entry & Back office",
+    "Sales & Marketing",
+    "BPO & Telecaller",
+    "Driver",
+    "Office Assistant",
+    "Delivery & Collection",
+    "Teacher",
+    "Cook",
+    "Receptionist & Front office",
+    "Operator & Technician",
+    "IT Engineer & Developer",
+    "Hotel & Travel Executive",
+    "Accountant",
+    "Designer",
+    "Other Jobs",
+    "Motorcycles",
+    "Scooters",
+    "Spare Parts",
+    "Bicycles",
+    "Commercial & Other Vehicles",
+    "Spare Parts",
+    "TVs, Video - Audio",
+    "Kitchen & Other Appliances",
+    "Computers & Laptops",
+    "Cameras & Lenses",
+    "Games & Entertainment",
+    "Fridges",
+    "Computer Accessories",
+    "Hard Disks, Printers & Monitors",
+    "ACs",
+    "Washing Machines",
+    "Sofa & Dining",
+    "Beds & Wardrobes",
+    "Home Decor & Garden",
+    "Kids Furniture",
+    "Other Household Items",
+    "Men",
+    "Women",
+    "Kids",
+    "Books",
+    "Gym & Fitness",
+    "Musical Instruments",
+    "Sports Equipment",
+    "Other Hobbies",
+    "Fishes & Aquarium",
+    "Pet Food & Accessories",
+    "Dogs",
+    "Other Pets",
+    "Education & Classes",
+    "Tours & Travel",
+    "Electronics Repair & Services",
+    "Health & Beauty",
+    "Home Renovation & Repair",
+    "Cleaning & Pest Control",
+    "Legal & Documentation Services",
+    "Packers & Movers",
+    "Other Services",
+    "Car",
+    "Bikes",
+  ];
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+  };
   const handleBackButtonClick = () => {
     navigate(-1);
   };
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+    if (price <= 0) {
+      toast.error("Invalid price");
+    }
     const parsedUserData = JSON.parse(userData);
     if (!parsedUserData.phoneNumber) {
       toast.error("Please Do OTP Verification On Profile");
     } else {
       setUserdata(parsedUserData);
       const id = parsedUserData._id;
-
       const formData = new FormData();
       formData.append("name", name);
       formData.append("description", description);
@@ -102,7 +172,7 @@ const Postform = () => {
 
                     <MDBCol md="9" className="pe-5">
                       <MDBInput
-                        label="Name"
+                        required
                         size="lg"
                         id="form1"
                         type="text"
@@ -113,21 +183,26 @@ const Postform = () => {
                   </MDBRow>
 
                   <hr className="mx-n3" />
-                  <MDBRow className="align-items-center pt-4 pb-3">
-                    <MDBCol md="3" className="ps-5">
+                  <div className="d-flex align-items-center pt-4 pb-3">
+                    <div className="col-md-3 ps-5">
                       <h6 className="mb-0">Category</h6>
-                    </MDBCol>
-
-                    <MDBCol md="9" className="pe-5">
-                      <MDBInput
-                        label="House,books,etc"
-                        size="lg"
-                        type="text"
+                    </div>
+                    <div className="col-md-9 pe-5">
+                      <select
+                        required
+                        className="form-select form-select-lg"
                         value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                      />
-                    </MDBCol>
-                  </MDBRow>
+                        onChange={handleCategoryChange}
+                      >
+                        <option value="">Select a category</option>
+                        {categoryOptions.map((option, index) => (
+                          <option key={index} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
 
                   <hr className="mx-n3" />
 
@@ -138,7 +213,7 @@ const Postform = () => {
 
                     <MDBCol md="9" className="pe-5">
                       <MDBTextArea
-                        label="Product Description"
+                        required
                         id="textAreaExample"
                         rows={3}
                         value={description}
@@ -156,6 +231,7 @@ const Postform = () => {
 
                     <MDBCol md="9" className="pe-5">
                       <MDBInput
+                        required
                         size="lg"
                         type="number"
                         value={days}
@@ -163,7 +239,7 @@ const Postform = () => {
                       />
                     </MDBCol>
                   </MDBRow>
-
+                  <hr className="mx-n3" />
                   <MDBRow className="align-items-center pt-4 pb-3">
                     <MDBCol md="3" className="ps-5">
                       <h6 className="mb-0">Image</h6>
@@ -171,6 +247,7 @@ const Postform = () => {
 
                     <MDBCol md="9" className="pe-5">
                       <input
+                        required
                         type="file"
                         name="file"
                         onChange={(e) => {
@@ -179,14 +256,15 @@ const Postform = () => {
                       />
                     </MDBCol>
                   </MDBRow>
+                  <hr className="mx-n3" />
                   <MDBRow className="align-items-center pt-4 pb-3">
                     <MDBCol md="3" className="ps-5">
-                      <h6 className="mb-0">Price</h6>
+                      <h6 className="mb-0">Price ₹ </h6>
                     </MDBCol>
 
                     <MDBCol md="9" className="pe-5">
                       <MDBInput
-                        label="Enter price in ruppees"
+                        required
                         size="lg"
                         type="number"
                         value={price}
@@ -194,11 +272,10 @@ const Postform = () => {
                       />
                     </MDBCol>
                   </MDBRow>
-
                   <hr className="mx-n3" />
                   <button
-                    className="form-control text-primary"
-                    style={{ backgroundColor: "lightblue" }}
+                    className="form-control text-white mt-5 mb-3"
+                    style={{ backgroundColor: "black" }}
                   >
                     Add Product
                   </button>

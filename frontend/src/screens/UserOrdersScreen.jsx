@@ -4,13 +4,19 @@ import Header from "../components/Header";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
+import { FaExclamationCircle } from "react-icons/fa";
+import { TailSpin } from "react-loader-spinner";
+
 const UserOrdersScreen = () => {
   const [products, setProducts] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
   const handleBackButtonClick = () => {
     navigate(-1);
   };
+
   useEffect(() => {
     const userDataFromCookie = Cookies.get("userData");
     if (userDataFromCookie) {
@@ -37,10 +43,14 @@ const UserOrdersScreen = () => {
         }
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false); 
       }
     };
+
     fetchOrders();
   }, []);
+
   return (
     <>
       <Header />
@@ -50,22 +60,47 @@ const UserOrdersScreen = () => {
           onClick={handleBackButtonClick}
         />
       </div>
-      <div className="gap-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
-          {products.length ? (
-            products.map((product) => (
-              <Product
-                user={true}
-                orders={true}
-                product={product}
-                key={product._id}
-              />
-            ))
-          ) : (
-            <h1>No Product Found</h1>
-          )}
-        </div>
+      <div className="bg-gray-100 p-3 rounded-lg text-center text-gray-600 flex items-center">
+        <FaExclamationCircle className="text-2xl mr-2" />
+        <span>
+          If you don't find your order here, it may mean your offer has been
+          rejected. Please make another offer.
+        </span>
       </div>
+
+      {loading ? ( 
+        <div>
+          <section className="h-screen flex justify-center items-center">
+            <TailSpin
+              height="50"
+              width="50"
+              color="grey"
+              ariaLabel="tail-spin-loading"
+              radius="1"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </section>
+        </div>
+      ) : (
+        <div className="gap-4 mt-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 lg:mx-8 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
+            {products.length ? (
+              products.map((product) => (
+                <Product
+                  user={true}
+                  orders={true}
+                  product={product}
+                  key={product._id}
+                />
+              ))
+            ) : (
+              <h1>No Product Found</h1>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 };
