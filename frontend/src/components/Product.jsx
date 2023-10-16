@@ -30,7 +30,7 @@ const Product = ({ product, user, orders }) => {
               <>
                 <img
                   className="max-h-[160px] group-hover:scale-110 transition duration-300"
-                  src={`https://rentit-api.onrender.com/${image}`}
+                  src={image}
                 />
                 {orders ? (
                   <div
@@ -53,7 +53,7 @@ const Product = ({ product, user, orders }) => {
                 <img
                   className="max-h-[160px] group-hover:scale-110 transition duration-300"
                   style={{ filter: "grayscale(100%)" }}
-                  src={`https://rentit-api.onrender.com/${image}`}
+                  src={image}
                 />
                 {!orders ? (
                   <div className="text-3xl font-semibold text-gray-800  items-center text-center mt-5">

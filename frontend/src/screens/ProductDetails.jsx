@@ -126,7 +126,7 @@ const ProductDetails = () => {
               <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
                 <img
                   className="max-w-xs lg:max-w-xl rounded-lg object-cover"
-                  src={`https://rentit-api.onrender.com/${image}`}
+                  src={image}
                   alt=""
                 />
               </div>
