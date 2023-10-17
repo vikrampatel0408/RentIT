@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import back from "../assets/back1.jpg";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 function Hero() {
   const navigate = useNavigate();
   const backgroundImageStyle = {
@@ -69,12 +69,12 @@ function Hero() {
                     placeholder={`Search ${placeholders[currentPlaceholder]}`}
                     className="mt-2 shadow-md focus:outline-none rounded-3 py-3 px-6 block w-full"
                     onKeyPress={handleSearch}
-                    value={inputValue} 
-                    onChange={(e) => setInputValue(e.target.value)} 
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
                   />
                   <button
                     className="ml-2 py-3 px-4 bg-black text-white rounded-xl d-flex align-items-center"
-                    onClick={handleButtonClick} 
+                    onClick={handleButtonClick}
                   >
                     <FaSearch className="mr-3 " /> Search
                   </button>
@@ -84,6 +84,29 @@ function Hero() {
             </div>
           </div>
         </Container>
+        <p className="text-sm absolute bottom-0 left-0 ml-4 mb-4">
+          <span className="text-gray-200">
+            <Link
+              to={
+                "https://unsplash.com/photos/a-sandy-beach-with-green-moss-growing-on-it-Nou7tNHlf40"
+              }
+              target="_blank"
+              className="no-underline text-gray-200"
+            >
+              Photo
+            </Link>{" "}
+          </span>
+          <span className="text-gray-400">by </span>
+          <span className="text-gray-200">
+            <Link
+              to={"https://unsplash.com/@byannel"}
+              target="_blank"
+              className="no-underline text-gray-200"
+            >
+              Anne Laure P
+            </Link>
+          </span>
+        </p>
       </div>
     </div>
   );
