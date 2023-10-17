@@ -142,10 +142,16 @@ const DashboardScreen = () => {
               </div>
             </div>
           ) : null}
+          {searchItem ? (
+            <p className="text-gray-500 text-xl pb-3 p-0">
+              Results for {searchItem} ...
+            </p>
+          ) : (
+            <h2 className="text-3xl font-semibold mb-10 text-center py-6">
+              Explore Items
+            </h2>
+          )}
 
-          <h2 className="text-3xl font-semibold mb-10 text-center py-6">
-            Explore Items
-          </h2>
           {loading ? (
             <section className="h-screen flex justify-center">
               <TailSpin
