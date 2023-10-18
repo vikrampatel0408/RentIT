@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/Header";
+import { TailSpin } from "react-loader-spinner";
 import {
   MDBContainer,
   MDBRow,
@@ -19,30 +20,36 @@ import {
 const LoginScreen = () => {
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handlesubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const response = await fetch("https://rentit-api.onrender.com/api/users/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
+      const response = await fetch(
+        "https://rentit-api.onrender.com/api/users/auth",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         console.log(data);
         Cookies.set("userData", JSON.stringify(data), { expires: 7 });
-
+        setLoading(false);
         navigate("/dashboard");
       } else {
         if (response.status === 401) {
+          setLoading(false);
           toast.error("Invalid email or password");
         } else if (response.status === 400) {
+          setLoading(false);
           toast.error("Email Verification Not Done");
         }
       }
@@ -62,13 +69,15 @@ const LoginScreen = () => {
             className="text-center text-md-start d-flex flex-column justify-content-center"
           >
             <h1 className="my-5 display-3 fw-bold ls-tight px-3">
-              <span className="text-primary">RentIt</span><br />For Everything
+              <span className="text-primary">RentIt</span>
+              <br />
+              For Everything
             </h1>
 
             <ToastContainer />
           </MDBCol>
           <MDBCol md="6">
-            <Form onSubmit={handlesubmit}>
+            <Form onSubmit={handleSubmit}>
               <MDBCard className="my-5">
                 <MDBCardBody className="p-5">
                   <MDBInput
@@ -90,10 +99,24 @@ const LoginScreen = () => {
 
                   <div>
                     <button
-                      className="form-control "
-                      style={{ backgroundColor: "#212529", color: "white" }}
+                      className="form-control"
+                      style={{
+                        backgroundColor: "#212529",
+                        color: "white",
+                        display: "flex", 
+                        justifyContent: "center",
+                      }}
                     >
-                      Login
+                      {loading ? (
+                        <TailSpin
+                          color="#fff"
+                          className="flex justify-center items-center"
+                          height={30}
+                          width={30}
+                        />
+                      ) : (
+                        "Login"
+                      )}
                     </button>
                   </div>
                 </MDBCardBody>
@@ -105,5 +128,4 @@ const LoginScreen = () => {
     </>
   );
 };
-
 export default LoginScreen;

@@ -10,6 +10,7 @@ import {
   MDBCheckbox,
   MDBIcon,
 } from "mdb-react-ui-kit";
+import { TailSpin } from "react-loader-spinner";
 import Header from "../components/Header";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +18,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 function RegisterScreen() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState(null);
   const [name, setName] = useState("");
@@ -24,22 +26,28 @@ function RegisterScreen() {
   const navigate = useNavigate();
   const handlesubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
-      const response = await fetch("https://rentit-api.onrender.com/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
+      const response = await fetch(
+        "https://rentit-api.onrender.com/api/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
+        }
+      );
       console.log(response);
       if (response.ok) {
         const data = await response.json();
         console.log(data);
         setUserData(data);
+        setLoading(false);
+        toast.success("Verification email is sent");
         navigate("/login", { state: data });
       } else {
+        setLoading(false);
         console.error("SignUp failed");
         toast.error("User already exists");
       }
@@ -98,12 +106,27 @@ function RegisterScreen() {
 
                   <div>
                     <button
-                      className="form-control "
-                      style={{ backgroundColor: "#212529", color: "white" }}
+                      className="form-control"
+                      style={{
+                        backgroundColor: "#212529",
+                        color: "white",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
                     >
-                      Sign Up
+                      {loading ? (
+                        <TailSpin
+                          color="#fff"
+                          className="flex justify-center items-center"
+                          height={30}
+                          width={30}
+                        />
+                      ) : (
+                        "Signup"
+                      )}
                     </button>
                   </div>
+
                   <div className="text-center"></div>
                 </MDBCardBody>
               </MDBCard>
