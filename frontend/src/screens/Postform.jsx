@@ -134,7 +134,7 @@ const Postform = () => {
 
       try {
         const response = await axios.post(
-          "https://rentit-api.onrender.com/api/product/",
+          "http://localhost:6969/api/product/",
           formData,
           {
             headers: {
@@ -242,7 +242,6 @@ const Postform = () => {
 
                     <MDBCol md="9" className="pe-5">
                       <MDBInput
-                        required
                         size="lg"
                         type="number"
                         value={days}
