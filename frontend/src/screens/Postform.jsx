@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -28,7 +28,6 @@ const Postform = () => {
   const [price, setPrice] = useState("");
   const [days, setDays] = useState("");
   const [productdata, setProductdata] = useState(null);
-  const userData = Cookies.get("userData");
   const [userdata, setUserdata] = useState([]);
 
   const categoryOptions = [
@@ -102,18 +101,29 @@ const Postform = () => {
     navigate(-1);
   };
 
+  useEffect(() => {
+    const userDataFromCookie = Cookies.get("userData");
+    if (userDataFromCookie) {
+      try {
+        const parsedUserData = JSON.parse(userDataFromCookie);
+        setUserdata(parsedUserData);
+      } catch (error) {
+        console.error("Error parsing user data from cookies:", error);
+      }
+    }
+  }, []);
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (price <= 0) {
       toast.error("Invalid price");
     }
-    const parsedUserData = JSON.parse(userData);
-    if (!parsedUserData.phoneNumber) {
+    if (!userdata.phoneNumber) {
       toast.error("Please Do OTP Verification On Profile");
     } else {
-      setUserdata(parsedUserData);
-      const id = parsedUserData._id;
+      const id = userdata._id;
       const formData = new FormData();
+      console.log(userdata.name);
+      formData.append("ownerName", userdata.name);
       formData.append("name", name);
       formData.append("description", description);
       formData.append("file", file);
@@ -121,6 +131,7 @@ const Postform = () => {
       formData.append("id", id);
       formData.append("price", price);
       formData.append("days", days);
+
       try {
         const response = await axios.post(
           "https://rentit-api.onrender.com/api/product/",

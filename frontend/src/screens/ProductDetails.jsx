@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { BiArrowBack } from "react-icons/bi";
 import { BiMinus, BiPlus } from "react-icons/bi";
 import { toast, ToastContainer } from "react-toastify";
+import { BsPerson } from "react-icons/bs";
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,9 +21,12 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://rentit-api.onrender.com/api/product/${id}`);
+        const response = await fetch(
+          `https://rentit-api.onrender.com/api/product/${id}`
+        );
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setProduct(data.product);
           setOfferprice(data.product.price);
         } else {
@@ -106,7 +110,7 @@ const ProductDetails = () => {
     };
     postOffer();
   };
-  const { name, price, description, image, days } = product;
+  const { name, price, description, image, days, ownerName } = product;
 
   return (
     <>
@@ -119,9 +123,9 @@ const ProductDetails = () => {
         />
       </div>
 
-      <section className="pt-16 pb-12 lg:py-32 h-screen flex items-center bg-white shadow-lg my-9 ">
-        <div className="container mx-auto  ">
-          <div className="p-8 rounded-lg ">
+      <section className="pt-16 pb-12 lg:py-32 h-screen flex flex-col items-center bg-white shadow-lg my-9">
+        <div className="container mx-auto">
+          <div className="p-8 rounded-lg">
             <div className="flex flex-col lg:flex-row items-center">
               <div className="flex flex-1 justify-center items-center mb-8 lg:mb-0">
                 <img
@@ -131,21 +135,36 @@ const ProductDetails = () => {
                 />
               </div>
 
-              <div className="flex-1 text-center lg:text-left justify-between m-8">
-                <h1 className="text-3xl font-semibold mb-2 max-w-[450px] mx-auto lg:mx-0">
+              <div className="flex-1 text-left m-8">
+                <div className="flex items-center mb-2">
+                  <div className="bg-gray-200 rounded-full p-2">
+                    <BsPerson size={30} className="text-gray-600" />
+                  </div>
+                  <p className="text-gray-600 text-2xl mt-2 ml-3">
+                    {ownerName.split(" ")[0].charAt(0).toUpperCase() +
+                      ownerName.split(" ")[0].slice(1)}
+                  </p>
+                </div>
+
+                <h1 className="text-3xl font-semibold mb-2 max-w-[450px] mt-4">
                   {name}
                 </h1>
                 <div className="text-2xl font-semibold mb-6">₹ {price}</div>
+                <p className="text-black">
+                  For <span className="font-semibold">{days}</span>
+                  {days == 1 ? <> Day</> : <> Days</>}
+                </p>
+                <div className="text-xl mb-6">About {name}</div>
+
                 <p className="text-gray-600 mb-8">{description}</p>
-                <p className="text-black">For {days} Days</p>
 
                 <label
                   htmlFor="offer-price"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
+                  className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Your Offer : ₹ {offerprice}
                 </label>
-                <div className="flex items-center">
+                <div className="flex items-center ">
                   <button
                     className="btn text-black ml-2 p-2"
                     onClick={() => setOfferprice(offerprice - 1)}
@@ -161,7 +180,7 @@ const ProductDetails = () => {
                     max={price}
                     step={1}
                     value={offerprice}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                    className="w-full h-2  rounded-lg appearance-none cursor-pointer bg-black "
                   />
                   <button
                     className="btn text-black ml-2 p-2"
@@ -172,7 +191,7 @@ const ProductDetails = () => {
                   </button>
                 </div>
                 <button
-                  className="bg-black text-white py-2 px-4 rounded-md  mt-4"
+                  className="bg-black items-center text-white py-2 px-4 rounded-md mt-4"
                   onClick={handleOfferClick}
                 >
                   Make an Offer
